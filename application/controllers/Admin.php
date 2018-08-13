@@ -525,21 +525,12 @@ class Admin extends CI_Controller {
 				$this->Menu_groups_model->remove_menu_by_groups_id ( $group_id );
 				
 				foreach ( $menusData as $mData ) {
-					$this->ion_auth->add_to_group ( $grp, $id );
+					$this->Menu_groups_model->add_menu_to_groups ( $mData, $group_id );
 				}
 			}
 		}
-		
-		// check to see if we are updating the user
-		if ($this->ion_auth->update ( $id, $data )) {
-			// redirect them back to the admin page if admin, or to the base url if non admin
-			$this->session->set_flashdata ( 'message', 'Update Record Users Success' );
-			redirect ( site_url ( 'admin/users' ) );
-		} else {
-			// redirect them back to the admin page if admin, or to the base url if non admin
-			$this->session->set_flashdata ( 'message', 'Update Record Users Fail' );
-			redirect ( site_url ( 'admin/users' ) );
-		}
+		$this->session->set_flashdata ( 'message', 'Update Record Authorization Menu Success' );
+			redirect ( site_url ( 'admin/groups' ) );
 	}
 	// Menus
 	public function menus() {

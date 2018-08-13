@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
-
-
-<!-- Mirrored from idealbrothers.thesoftking.com/html/islam/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Jul 2018 11:04:34 GMT -->
+<html lang="eng">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">

@@ -11,9 +11,22 @@ class Menu_groups_model extends CI_Model {
 	// get_menus_groups id tanpa diolah
 	function get_menus_groups_by($group_id) {
 		$this->db->where ( 'group_id', $group_id );
-		$query = $this->db->get ('menu_groups');
-		//$query = $this->db->last_query();
+		$query = $this->db->get ( 'menu_groups' );
+		// $query = $this->db->last_query();
 		return $query;
+	}
+	// add_menu_to_groups
+	function add_menu_to_groups($menu_data, $group_id) {
+		$data = array (
+				'group_id' => $group_id,
+				'menu_id' =>  $menu_data
+		);
+		$this->db->insert ( $this->table, $data );
+	}
+	//remove_menu_by_groups_id
+	function remove_menu_by_groups_id($group_id) {
+		$this->db->where ( 'group_id', $group_id );
+		$this->db->delete ( 'menu_groups' );
 	}
 	// get all
 	function get_all_menu_groups() {

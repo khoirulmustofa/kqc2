@@ -49,7 +49,7 @@
 							}
 							?>
 							<div class="checkbox">
-							<label> <input type="checkbox" name="menus[]"
+							<label> <input type="checkbox" name="menus[]" value="<?php echo $menus ['id_menus'];?>"
 								<?php echo $checked;?>> <?php echo $menus['judul_menus']?>
 							</label>
 						</div>
