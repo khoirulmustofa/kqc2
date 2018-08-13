@@ -16,7 +16,7 @@
 		<!-- Default box -->
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<h3 class="box-title">Nama Menu : <?php echo ucwords( $groups->name);?></h3>
+				<h3 class="box-title">Nama Menu : <?php // echo ucwords( $groups->name);?></h3>
 
 				<div class="box-tools pull-right">
 					<button type="button" class="btn btn-box-tool"
@@ -34,26 +34,38 @@
 			echo form_open_multipart ( $action, $attributes )?>				
 				<div class="box-body">
 					<div class="form-group">
-						<h3 class="box-title">List Menu Untuk Groups <?php echo ucwords( $groups->name);?></h3>
+						<h3 class="box-title">List Menu Untuk Groups <?php // echo ucwords( $groups->name);?></h3>
 						<hr>
 						<?php
-						foreach ( $menu_data as $menu ) {
-							foreach ($menu_groups as $menus){
-								echo $menus->menu_id;
-								$_ck =  $menu->id_menus == $menus->menu_id  ? '' : 'checked="checked"';
+						foreach ( $data_menus as $menus ) {
+							?>
+							<?php
+							$id_menus = $menus ['id_menus'];
+							$checked = null;
+							foreach ( $data_current_menu_groups as $current_menu_groups ) {
+								if ($id_menus == $current_menu_groups->menu_id) {
+									$checked = 'checked="checked"';
+								}
 							}
 							?>
 							<div class="checkbox">
-							<label> <input type="checkbox" <?php echo $_ck;?> > <?php echo ucwords( $menu->judul_menus);?>
-								</label>
-						</div>		
-                		<?php } ?>
+							<label> <input type="checkbox" name="menus[]"
+								<?php echo $checked;?>> <?php echo $menus['judul_menus']?>
+							</label>
+						</div>
+						<?php
+						}
+						?>
 						</div>
 				</div>
 
 			</div>
 			<!-- /.box-body -->
-			<div class="box-footer"></div>
+			<div class="box-footer">
+				<input type="hidden" name="group_id" value="<?php echo $group_id; ?>" />
+				<button type="submit" class="btn btn-primary"><?php echo $button ?></button>
+				<a href="<?php echo site_url('admin/groups') ?>" class="btn btn-default">Cancel</a>
+			</div>
 			<!-- /.box-footer-->
 			<?php echo form_close();?>
 		

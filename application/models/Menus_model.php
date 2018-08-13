@@ -15,12 +15,19 @@ class Menus_model extends CI_Model {
 		return $this->db->get ( $this->table )->result ();
 	}
 	
+	/**
+	 * menampilkan semua tanpa proses dulu
+	 */
+	function get_menus() {
+		$this->db->order_by ( $this->id, $this->order );
+		return $this->db->get ( 'menus' );
+	}
+	
 	// get data by id
 	function get_by_id_menus($id) {
 		$this->db->where ( $this->id, $id );
 		return $this->db->get ( $this->table )->row ();
 	}
-	
 	
 	// get total rows
 	function total_rows_menus($q = NULL) {

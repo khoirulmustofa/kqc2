@@ -484,24 +484,63 @@ class Admin extends CI_Controller {
 	// End Group
 	
 	// authorization_menu
+	/**
+	 *
+	 * @param
+	 *        	Id Groups -> $id
+	 */
 	public function authorization_menu($id) {
+		if (! $this->ion_auth->logged_in () && ! $this->ion_auth->is_admin ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
+		$menus = $this->Menus_model->get_menus ()->result_array ();
+		$current_menu_groups = $this->Menu_groups_model->get_menus_groups_by ( $id )->result ();
 		
-		$row = $this->Groups_model->get_by_id_groups ( $id );
-		
-		$this->data ['user'] = $user;
-		$this->data ['groups'] = $groups;
-		$this->data ['currentGroups'] = $currentGroups;
+		$this->data ['data_menus'] = $menus;
+		$this->data ['data_current_menu_groups'] = $current_menu_groups;
 		$this->data ['button'] = 'Update';
-		$this->data ['action'] = site_url ( 'admin/menus_create_action' );
-		$this->data ['groups'] = $row;
+		$this->data ['action'] = site_url ( 'admin/authorization_menu_action' );
 		$this->data ['page'] = 'authorization_form';
 		$this->data ['title'] = 'Authorization Form';
-		$this->data ['currentGroups'] = $currentGroups;
-		$this->data ['currentGroups'] = $currentGroups;
-				
+		$this->data ['group_id'] = $id;
+		
+		// echo $current_menu_groups;
 		$this->template->load ( 'admin/template', 'admin/view_authorization_form', $this->data );
 	}
 	// End authorization_menu
+	
+	// authorization_menu_action
+	public function authorization_menu_action() {
+		if (! $this->ion_auth->logged_in () && ! $this->ion_auth->is_admin ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
+		$group_id = $this->input->post ( 'group_id', TRUE );
+		if ($this->ion_auth->is_admin ()) {
+			$menusData = $this->input->post ( 'menus' );
+			
+			if (isset ( $menusData ) && ! empty ( $menusData )) {
+				
+				$this->Menu_groups_model->remove_menu_by_groups_id ( $group_id );
+				
+				foreach ( $menusData as $mData ) {
+					$this->ion_auth->add_to_group ( $grp, $id );
+				}
+			}
+		}
+		
+		// check to see if we are updating the user
+		if ($this->ion_auth->update ( $id, $data )) {
+			// redirect them back to the admin page if admin, or to the base url if non admin
+			$this->session->set_flashdata ( 'message', 'Update Record Users Success' );
+			redirect ( site_url ( 'admin/users' ) );
+		} else {
+			// redirect them back to the admin page if admin, or to the base url if non admin
+			$this->session->set_flashdata ( 'message', 'Update Record Users Fail' );
+			redirect ( site_url ( 'admin/users' ) );
+		}
+	}
 	// Menus
 	public function menus() {
 		$q = urldecode ( $this->input->get ( 'q', TRUE ) );

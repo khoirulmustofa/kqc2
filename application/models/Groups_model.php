@@ -15,6 +15,12 @@ class Groups_model extends CI_Model {
 		return $this->db->get ( $this->table )->result ();
 	}
 	
+	// get_groups_by $id return tanpa proses
+	function get_groups_by($id) {
+		$this->db->where ( 'id', $id );
+		return $this->db->get ( 'groups' );
+	}
+	
 	// get data by id
 	function get_by_id_groups($id) {
 		$this->db->where ( $this->id, $id );

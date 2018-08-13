@@ -8,7 +8,13 @@ class Menu_groups_model extends CI_Model {
 	function __construct() {
 		parent::__construct ();
 	}
-	
+	// get_menus_groups id tanpa diolah
+	function get_menus_groups_by($group_id) {
+		$this->db->where ( 'group_id', $group_id );
+		$query = $this->db->get ('menu_groups');
+		//$query = $this->db->last_query();
+		return $query;
+	}
 	// get all
 	function get_all_menu_groups() {
 		$this->db->order_by ( $this->id, $this->order );
@@ -23,14 +29,14 @@ class Menu_groups_model extends CI_Model {
 		$this->db->where ( 'group_id', $group_id );
 		$this->db->where ( 'is_main_menu', 0 );
 		$query = $this->db->get ();
-		//$query = $this->db->last_query();
+		// $query = $this->db->last_query();
 		return $query;
 	}
 	
 	// get_menus_groups id
 	function get_menus_groups($group_id) {
-		$this->db->where('group_id', $group_id);
-		$query = $this->db->get ($this->table);
+		$this->db->where ( 'group_id', $group_id );
+		$query = $this->db->get ( $this->table );
 		
 		return $query->result ();
 	}
