@@ -530,7 +530,7 @@ class Admin extends CI_Controller {
 			}
 		}
 		$this->session->set_flashdata ( 'message', 'Update Record Authorization Menu Success' );
-			redirect ( site_url ( 'admin/groups' ) );
+		redirect ( site_url ( 'admin/groups' ) );
 	}
 	// Menus
 	public function menus() {
@@ -661,6 +661,10 @@ class Admin extends CI_Controller {
 	
 	// Tentang Kami
 	public function tentang_kami() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$q = urldecode ( $this->input->get ( 'q', TRUE ) );
 		$start = intval ( $this->input->get ( 'start' ) );
 		
@@ -707,35 +711,59 @@ class Admin extends CI_Controller {
 		$this->template->load ( 'admin/template', 'admin/view_tentang_kami_form', $data );
 	}
 	public function tentang_kami_create_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->tentang_kami_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
 			$this->tentang_kami_create ();
 		} else {
-			$config ['upload_path'] = 'public/tentang_kami/';
-			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG';
-			$config ['max_size'] = '3000'; // kb
-			$this->load->library ( 'upload', $config );
-			$this->upload->do_upload ( 'gambar_tentang_kami' );
-			$hasil = $this->upload->data ();
-			if ($hasil ['file_name'] == '') {
-				$data = array (
-						'nama_tentang_kami' => $this->input->post ( 'nama_tentang_kami', TRUE ),
-						'isi_tentang_kami' => $this->input->post ( 'isi_tentang_kami', TRUE ) 
-				);
+			$config ['upload_path'] = 'public/tentang_kami/'; // path folder
+			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG'; // type yang dapat diakses bisa anda sesuaikan
+			$config ['encrypt_name'] = TRUE; // Enkripsi nama yang terupload
+			$this->upload->initialize ( $config );
+			
+			if (! empty ( $_FILES ['gambar_tentang_kami'] ['name'] )) {
+				
+				if ($this->upload->do_upload ( 'gambar_tentang_kami' )) {
+					$gbr = $this->upload->data ();
+					// Compress Image
+					$config ['image_library'] = 'gd2';
+					$config ['source_image'] = 'public/tentang_kami/' . $gbr ['file_name'];
+					$config ['create_thumb'] = FALSE;
+					$config ['maintain_ratio'] = FALSE;
+					$config ['quality'] = '50%';
+					$config ['width'] = 600;
+					$config ['height'] = 400;
+					$config ['new_image'] = 'public/tentang_kami/' . $gbr ['file_name'];
+					$this->load->library ( 'image_lib', $config );
+					$this->image_lib->resize ();
+					
+					$data = array (
+							'nama_tentang_kami' => ucwords ( $this->input->post ( 'nama_tentang_kami', TRUE ) ),
+							'isi_tentang_kami' => $this->input->post ( 'isi_tentang_kami', TRUE ),
+							'gambar_tentang_kami' => $gbr ['file_name'] 
+					);
+				}
 			} else {
 				$data = array (
-						'nama_tentang_kami' => $this->input->post ( 'nama_tentang_kami', TRUE ),
-						'isi_tentang_kami' => $this->input->post ( 'isi_tentang_kami', TRUE ),
-						'gambar_tentang_kami' => $hasil ['file_name'] 
+						'nama_tentang_kami' => ucwords ( $this->input->post ( 'nama_tentang_kami', TRUE ) ),
+						'isi_tentang_kami' => $this->input->post ( 'isi_tentang_kami', TRUE ) 
 				);
 			}
+			
 			$this->Tentang_kami_model->insert_tentang_kami ( $data );
 			$this->session->set_flashdata ( 'message', 'Create Record Success' );
 			redirect ( site_url ( 'admin/tentang_kami' ) );
 		}
 	}
 	public function tentang_kami_update($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Tentang_kami_model->get_by_id_tentang_kami ( $id );
 		
 		if ($row) {
@@ -756,48 +784,76 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function tentang_kami_update_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->tentang_kami_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
 			$this->tentang_kami_update ( $this->input->post ( 'id_tentang_kami', TRUE ) );
 		} else {
-			$config ['upload_path'] = 'public/tentang_kami/';
-			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG';
-			$config ['max_size'] = '3000'; // kb
-			$this->load->library ( 'upload', $config );
-			$this->upload->do_upload ( 'gambar_tentang_kami' );
-			$hasil = $this->upload->data ();
-			if ($hasil ['file_name'] == '') {
-				$data = array (
-						'nama_tentang_kami' => $this->input->post ( 'nama_tentang_kami', TRUE ),
-						'isi_tentang_kami' => $this->input->post ( 'isi_tentang_kami', TRUE ) 
-				);
+			
+			$config ['upload_path'] = 'public/tentang_kami/'; // path folder
+			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG'; // type yang dapat diakses bisa anda sesuaikan
+			$config ['encrypt_name'] = TRUE; // Enkripsi nama yang terupload
+			$this->upload->initialize ( $config );
+			
+			if (! empty ( $_FILES ['gambar_tentang_kami'] ['name'] )) {
+				
+				if ($this->upload->do_upload ( 'gambar_tentang_kami' )) {
+					$gbr = $this->upload->data ();
+					// Compress Image
+					$config ['image_library'] = 'gd2';
+					$config ['source_image'] = 'public/tentang_kami/' . $gbr ['file_name'];
+					$config ['create_thumb'] = FALSE;
+					$config ['maintain_ratio'] = FALSE;
+					$config ['quality'] = '50%';
+					$config ['width'] = 600;
+					$config ['height'] = 400;
+					$config ['new_image'] = 'public/tentang_kami/' . $gbr ['file_name'];
+					$this->load->library ( 'image_lib', $config );
+					$this->image_lib->resize ();
+					
+					$data = array (
+							'nama_tentang_kami' => ucwords ( $this->input->post ( 'nama_tentang_kami', TRUE ) ),
+							'isi_tentang_kami' => $this->input->post ( 'isi_tentang_kami', TRUE ),
+							'gambar_tentang_kami' => $gbr ['file_name'] 
+					);
+					$path_file = 'public/tentang_kami/' . $this->input->post ( 'gambar_tentang_kami1', TRUE );
+					if (file_exists ( $path_file )) {
+						unlink ( $path_file );
+					}
+				}
 			} else {
 				$data = array (
-						'nama_tentang_kami' => $this->input->post ( 'nama_tentang_kami', TRUE ),
-						'isi_tentang_kami' => $this->input->post ( 'isi_tentang_kami', TRUE ),
-						'gambar_tentang_kami' => $hasil ['file_name'] 
+						'nama_tentang_kami' => ucwords ( $this->input->post ( 'nama_tentang_kami', TRUE ) ),
+						'isi_tentang_kami' => $this->input->post ( 'isi_tentang_kami', TRUE ) 
 				);
-				$path_file = 'public/tentang_kami/' . $this->input->post ( 'gambar_tentang_kami1', TRUE );
-				if (file_exists ( $path_file )) {
-					unlink ( $path_file );
-				}
 			}
+			
 			$this->Tentang_kami_model->update_tentang_kami ( $this->input->post ( 'id_tentang_kami', TRUE ), $data );
 			$this->session->set_flashdata ( 'message', 'Update Record Success' );
 			redirect ( site_url ( 'admin/tentang_kami' ) );
 		}
 	}
 	public function tentang_kami_delete($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Tentang_kami_model->get_by_id_tentang_kami ( $id );
-		
+		$path_file = 'public/tentang_kami/' . $row->gambar_tentang_kami;
+		if (file_exists ( $path_file )) {
+			unlink ( $path_file );
+		}
 		if ($row) {
 			$this->Tentang_kami_model->delete_tentang_kami ( $id );
 			$this->session->set_flashdata ( 'message', 'Delete Record Success' );
-			redirect ( site_url ( 'tentang_kami' ) );
+			redirect ( site_url ( 'admin/tentang_kami' ) );
 		} else {
 			$this->session->set_flashdata ( 'message', 'Record Not Found' );
-			redirect ( site_url ( 'tentang_kami' ) );
+			redirect ( site_url ( 'admin/tentang_kami' ) );
 		}
 	}
 	public function tentang_kami_rules() {
@@ -828,7 +884,7 @@ class Admin extends CI_Controller {
 			$config ['first_url'] = base_url () . 'admin/berita/';
 		}
 		
-		$config ['per_page'] = 2;
+		$config ['per_page'] = 10;
 		$config ['query_string_segment'] = 'start';
 		$config ['page_query_string'] = TRUE;
 		$config ['total_rows'] = $this->Berita_model->total_rows_berita ( $q );
@@ -1086,6 +1142,10 @@ class Admin extends CI_Controller {
 	
 	// Artikel
 	public function artikel() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$q = urldecode ( $this->input->get ( 'q', TRUE ) );
 		$start = intval ( $this->input->get ( 'start' ) );
 		
@@ -1098,6 +1158,7 @@ class Admin extends CI_Controller {
 		}
 		
 		$config ['per_page'] = 10;
+		$config ['query_string_segment'] = 'start';
 		$config ['page_query_string'] = TRUE;
 		$config ['total_rows'] = $this->Artikel_model->total_rows_artikel ( $q );
 		$artikel = $this->Artikel_model->get_limit_data_artikel ( $config ['per_page'], $start, $q );
@@ -1112,12 +1173,16 @@ class Admin extends CI_Controller {
 				'pagination' => $this->pagination->create_links (),
 				'total_rows' => $config ['total_rows'],
 				'start' => $start,
-				'page' => 'artikel',
-				'title' => 'Artikel' 
+				'page' => 'artikel_list',
+				'title' => 'artikel' 
 		);
 		$this->template->load ( 'admin/template', 'admin/view_artikel_list', $data );
 	}
 	public function artikel_create() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$data = array (
 				'button' => 'Create',
 				'action' => site_url ( 'admin/artikel_create_action' ),
@@ -1132,12 +1197,16 @@ class Admin extends CI_Controller {
 				'gambar_1' => set_value ( 'gambar' ),
 				'dibaca' => set_value ( 'dibaca' ),
 				'tag_data' => $this->Tag_model->get_all_tag (),
-				'page' => 'artikel',
-				'title' => 'Artikel' 
+				'page' => 'artikel_form',
+				'title' => 'artikel' 
 		);
 		$this->template->load ( 'admin/template', 'admin/view_artikel_form', $data );
 	}
 	public function artikel_create_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->artikel_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
@@ -1186,9 +1255,9 @@ class Admin extends CI_Controller {
 				}
 			} else {
 				$data = array (
-						'username' => $this->input->post ( 'username', TRUE ),
+						'username' => ucwords ( $this->session->userdata ( 'username' ) ),
 						'judul_artikel' => $this->input->post ( 'judul_artikel', TRUE ),
-						'judul_seo_artikel' => seo_title ( $this->input->post ( 'judul_berita', TRUE ) ),
+						'judul_seo_artikel' => seo_title ( $this->input->post ( 'judul_artikel', TRUE ) ),
 						'isi_artikel' => $this->input->post ( 'isi_artikel', TRUE ),
 						'hari' => hari_ini ( date ( 'w' ) ),
 						'tanggal' => date ( 'Y-m-d' ),
@@ -1199,11 +1268,15 @@ class Admin extends CI_Controller {
 			}
 			
 			$this->Artikel_model->insert_artikel ( $data );
-			$this->session->set_flashdata ( 'message', 'Create Artikel Record Success' );
+			$this->session->set_flashdata ( 'message', 'Create artikel Record Success' );
 			redirect ( site_url ( 'admin/artikel' ) );
 		}
 	}
 	public function artikel_update($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Artikel_model->get_by_id_artikel ( $id );
 		
 		if ($row) {
@@ -1222,8 +1295,8 @@ class Admin extends CI_Controller {
 					'dibaca' => set_value ( 'dibaca', $row->dibaca ),
 					'tag' => set_value ( 'tag', $row->tag ),
 					'tag_data' => $this->Tag_model->get_all_tag (),
-					'page' => 'artikel',
-					'title' => 'Artikel' 
+					'page' => 'artikel_form',
+					'title' => 'artikel' 
 			);
 			// var_dump($data);
 			$this->template->load ( 'admin/template', 'admin/view_artikel_form', $data );
@@ -1233,6 +1306,11 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function artikel_update_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
+		
 		$this->artikel_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
@@ -1285,9 +1363,9 @@ class Admin extends CI_Controller {
 				}
 			} else {
 				$data = array (
-						'username' => $this->input->post ( 'username', TRUE ),
+						'username' => ucwords ( $this->session->userdata ( 'username' ) ),
 						'judul_artikel' => $this->input->post ( 'judul_artikel', TRUE ),
-						'judul_seo_artikel' => seo_title ( $this->input->post ( 'judul_berita', TRUE ) ),
+						'judul_seo_artikel' => seo_title ( $this->input->post ( 'judul_artikel', TRUE ) ),
 						'isi_artikel' => $this->input->post ( 'isi_artikel', TRUE ),
 						'hari' => hari_ini ( date ( 'w' ) ),
 						'tanggal' => date ( 'Y-m-d' ),
@@ -1298,11 +1376,15 @@ class Admin extends CI_Controller {
 			}
 			
 			$this->Artikel_model->update_artikel ( $this->input->post ( 'id_artikel', TRUE ), $data );
-			$this->session->set_flashdata ( 'message', 'Update Record Artikel Success' );
+			$this->session->set_flashdata ( 'message', 'Update Record artikel Success' );
 			redirect ( site_url ( 'admin/artikel' ) );
 		}
 	}
 	public function artikel_delete($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Artikel_model->get_by_id_artikel ( $id );
 		
 		if ($row) {
@@ -1319,7 +1401,7 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function artikel_rules() {
-		$this->form_validation->set_rules ( 'username', 'username', 'trim|required' );
+		$this->form_validation->set_rules ( 'username', 'username' );
 		$this->form_validation->set_rules ( 'judul_artikel', 'judul artikel', 'trim|required' );
 		$this->form_validation->set_rules ( 'isi_artikel', 'isi artikel', 'trim|required' );
 		$this->form_validation->set_rules ( 'gambar', 'gambar' );
@@ -1332,6 +1414,10 @@ class Admin extends CI_Controller {
 	
 	// rekening
 	public function rekening() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$q = urldecode ( $this->input->get ( 'q', TRUE ) );
 		$start = intval ( $this->input->get ( 'start' ) );
 		
@@ -1365,6 +1451,10 @@ class Admin extends CI_Controller {
 		$this->template->load ( 'admin/template', 'admin/view_rekening_list', $data );
 	}
 	public function rekening_create() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$data = array (
 				'button' => 'Create',
 				'action' => site_url ( 'admin/rekening_create_action' ),
@@ -1377,6 +1467,10 @@ class Admin extends CI_Controller {
 		$this->template->load ( 'admin/template', 'admin/view_rekening_form', $data );
 	}
 	public function rekening_create_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->rekening_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
@@ -1393,6 +1487,10 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function rekening_update($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Rekening_model->get_by_id_rekening ( $id );
 		
 		if ($row) {
@@ -1412,6 +1510,10 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function rekening_update_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->rekening_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
@@ -1428,6 +1530,10 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function rekening_delete($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Rekening_model->get_by_id_rekening ( $id );
 		
 		if ($row) {
@@ -1611,6 +1717,10 @@ class Admin extends CI_Controller {
 	
 	// pendidikan_dakwah
 	public function pendidikan_dakwah() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$q = urldecode ( $this->input->get ( 'q', TRUE ) );
 		$start = intval ( $this->input->get ( 'start' ) );
 		
@@ -1622,7 +1732,7 @@ class Admin extends CI_Controller {
 			$config ['first_url'] = base_url () . 'admin/pendidikan_dakwah/';
 		}
 		
-		$config ['per_page'] = 10;
+		$config ['per_page'] = 5;
 		$config ['query_string_segment'] = 'start';
 		$config ['page_query_string'] = TRUE;
 		$config ['total_rows'] = $this->Pendidikan_dakwah_model->total_rows_pendidikan_dakwah ( $q );
@@ -1638,12 +1748,16 @@ class Admin extends CI_Controller {
 				'pagination' => $this->pagination->create_links (),
 				'total_rows' => $config ['total_rows'],
 				'start' => $start,
-				'page' => 'pendidikan_dakwah',
+				'page' => 'pendidikan_dakwah_list',
 				'title' => 'Pendidikan Dan Dakwah' 
 		);
 		$this->template->load ( 'admin/template', 'admin/view_pendidikan_dakwah_list', $data );
 	}
 	public function pendidikan_dakwah_create() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$data = array (
 				'button' => 'Create',
 				'action' => site_url ( 'admin/pendidikan_dakwah_create_action' ),
@@ -1651,43 +1765,65 @@ class Admin extends CI_Controller {
 				'nama_pendidikan_dakwah' => set_value ( 'nama_pendidikan_dakwah' ),
 				'keterangan_pendidikan_dakwah' => set_value ( 'keterangan_pendidikan_dakwah' ),
 				'gambar_pendidikan_dakwah_1' => set_value ( 'gambar_pendidikan_dakwah_1' ),
-				'page' => 'pendidikan_dakwah',
+				'page' => 'pendidikan_dakwah_form',
 				'title' => 'Pendidikan Dan Dakwah' 
 		);
 		$this->template->load ( 'admin/template', 'admin/view_pendidikan_dakwah_form', $data );
 	}
 	public function pendidikan_dakwah_create_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->pendidikan_dakwah_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
-			$this->pendidikan_dakwah_create ();
+			$this->pendidikan_dakwah_update ( $this->input->post ( 'id_pendidikan_dakwah', TRUE ) );
 		} else {
-			$config ['upload_path'] = 'public/pendidikan_dakwah/';
-			$config ['allowed_types'] = 'gif|jpg|png|JPG|JPEG';
-			$config ['max_size'] = '3000'; // kb
-			$this->load->library ( 'upload', $config );
-			$this->upload->do_upload ( 'gambar_pendidikan_dakwah' );
-			$hasil = $this->upload->data ();
+			$config ['upload_path'] = 'public/pendidikan_dakwah/'; // path folder
+			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG'; // type yang dapat diakses bisa anda sesuaikan
+			$config ['encrypt_name'] = TRUE; // Enkripsi nama yang terupload
+			$this->upload->initialize ( $config );
 			
-			if ($hasil ['file_name'] == '') {
-				$data = array (
-						'nama_pendidikan_dakwah' => $this->input->post ( 'nama_pendidikan_dakwah', TRUE ),
-						'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ) 
-				);
+			if (! empty ( $_FILES ['gambar_pendidikan_dakwah'] ['name'] )) {
+				
+				if ($this->upload->do_upload ( 'gambar_pendidikan_dakwah' )) {
+					$gbr = $this->upload->data ();
+					// Compress Image
+					$config ['image_library'] = 'gd2';
+					$config ['source_image'] = 'public/pendidikan_dakwah/' . $gbr ['file_name'];
+					$config ['create_thumb'] = FALSE;
+					$config ['maintain_ratio'] = FALSE;
+					$config ['quality'] = '50%';
+					$config ['width'] = 600;
+					$config ['height'] = 400;
+					$config ['new_image'] = 'public/pendidikan_dakwah/' . $gbr ['file_name'];
+					$this->load->library ( 'image_lib', $config );
+					$this->image_lib->resize ();
+					
+					$data = array (
+							'nama_pendidikan_dakwah' => ucwords ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ),
+							'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ),
+							'gambar_pendidikan_dakwah' => $gbr ['file_name'] 
+					);
+				}
 			} else {
 				$data = array (
-						'nama_pendidikan_dakwah' => $this->input->post ( 'nama_pendidikan_dakwah', TRUE ),
-						'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ),
-						'gambar_pendidikan_dakwah' => $hasil ['file_name'] 
+						'nama_pendidikan_dakwah' => ucwords ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ),
+						'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ) 
 				);
 			}
 			
-			$this->Pendidikan_dakwah_model->insert_pendidikan_dakwah ( $data );
+			$this->Tentang_kami_model->insert_tentang_kami ( $data );
 			$this->session->set_flashdata ( 'message', 'Create Record Success' );
-			redirect ( site_url ( 'admin/pendidikan_dakwah' ) );
+			redirect ( site_url ( 'admin/tentang_kami' ) );
 		}
 	}
 	public function pendidikan_dakwah_update($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Pendidikan_dakwah_model->get_by_id_pendidikan_dakwah ( $id );
 		
 		if ($row) {
@@ -1698,7 +1834,7 @@ class Admin extends CI_Controller {
 					'nama_pendidikan_dakwah' => set_value ( 'nama_pendidikan_dakwah', $row->nama_pendidikan_dakwah ),
 					'keterangan_pendidikan_dakwah' => set_value ( 'keterangan_pendidikan_dakwah', $row->keterangan_pendidikan_dakwah ),
 					'gambar_pendidikan_dakwah_1' => set_value ( 'gambar_pendidikan_dakwah', $row->gambar_pendidikan_dakwah ),
-					'page' => 'pendidikan_dakwah',
+					'page' => 'pendidikan_dakwah_form',
 					'title' => 'Pendidikan Dan Dakwah' 
 			);
 			$this->template->load ( 'admin/template', 'admin/view_pendidikan_dakwah_form', $data );
@@ -1708,41 +1844,63 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function pendidikan_dakwah_update_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->pendidikan_dakwah_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
 			$this->pendidikan_dakwah_update ( $this->input->post ( 'id_pendidikan_dakwah', TRUE ) );
 		} else {
-			$config ['upload_path'] = 'public/pendidikan_dakwah/';
-			$config ['allowed_types'] = 'gif|jpg|png|JPG|JPEG';
-			$config ['max_size'] = '3000'; // kb
-			$this->load->library ( 'upload', $config );
-			$this->upload->do_upload ( 'gambar_pendidikan_dakwah' );
-			$hasil = $this->upload->data ();
+			$config ['upload_path'] = 'public/pendidikan_dakwah/'; // path folder
+			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG'; // type yang dapat diakses bisa anda sesuaikan
+			$config ['encrypt_name'] = TRUE; // Enkripsi nama yang terupload
+			$this->upload->initialize ( $config );
 			
-			if ($hasil ['file_name'] == '') {
-				$data = array (
-						'nama_pendidikan_dakwah' => $this->input->post ( 'nama_pendidikan_dakwah', TRUE ),
-						'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ) 
-				);
+			if (! empty ( $_FILES ['gambar_pendidikan_dakwah'] ['name'] )) {
+				
+				if ($this->upload->do_upload ( 'gambar_pendidikan_dakwah' )) {
+					$gbr = $this->upload->data ();
+					// Compress Image
+					$config ['image_library'] = 'gd2';
+					$config ['source_image'] = 'public/pendidikan_dakwah/' . $gbr ['file_name'];
+					$config ['create_thumb'] = FALSE;
+					$config ['maintain_ratio'] = FALSE;
+					$config ['quality'] = '50%';
+					$config ['width'] = 600;
+					$config ['height'] = 400;
+					$config ['new_image'] = 'public/pendidikan_dakwah/' . $gbr ['file_name'];
+					$this->load->library ( 'image_lib', $config );
+					$this->image_lib->resize ();
+					
+					$data = array (
+							'nama_pendidikan_dakwah' => ucwords ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ),
+							'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ),
+							'gambar_pendidikan_dakwah' => $gbr ['file_name'] 
+					);
+					$path_file = 'public/pendidikan_dakwah/' . $this->input->post ( 'gambar_pendidikan_dakwah_1', TRUE );
+					if (file_exists ( $path_file )) {
+						unlink ( $path_file );
+					}
+				}
 			} else {
 				$data = array (
-						'nama_pendidikan_dakwah' => $this->input->post ( 'nama_pendidikan_dakwah', TRUE ),
-						'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ),
-						'gambar_pendidikan_dakwah' => $hasil ['file_name'] 
+						'nama_pendidikan_dakwah' => ucwords ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ),
+						'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ) 
 				);
-				$path_file = 'public/pendidikan_dakwah/' . $this->input->post ( 'gambar_pendidikan_dakwah_1', TRUE );
-				if (file_exists ( $path_file )) {
-					unlink ( $path_file );
-				}
 			}
 			
-			$this->Pendidikan_dakwah_model->update_pendidikan_dakwah ( $this->input->post ( 'id_pendidikan_dakwah', TRUE ), $data );
-			$this->session->set_flashdata ( 'message', 'Update Record Success' );
-			redirect ( site_url ( 'admin/pendidikan_dakwah' ) );
+			$this->Tentang_kami_model->insert_tentang_kami ( $data );
+			$this->session->set_flashdata ( 'message', 'Create Record Success' );
+			redirect ( site_url ( 'admin/tentang_kami' ) );
 		}
 	}
 	public function pendidikan_dakwah_delete($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Pendidikan_dakwah_model->get_by_id_pendidikan_dakwah ( $id );
 		
 		if ($row) {

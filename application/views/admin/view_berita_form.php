@@ -14,7 +14,7 @@
 	<!-- Main content -->
 	<section class="content">
 		<!-- Default box -->
-		<div class="box box-info">
+		<div class="box box-success">
 			<div class="box-header with-border">
 				<h3 class="box-title"><?php echo ucwords($title." ".$button)?></h3>
 
