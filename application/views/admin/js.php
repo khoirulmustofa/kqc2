@@ -41,4 +41,20 @@ if (isset ( $page ) && $page == 'berita_form') {
   })
 </script>
 <?php
+}if (isset ( $page ) && $page == 'tentang_kami_form') {
+	?>
+<!-- Select2 -->
+<script src="<?php echo base_url('template/lte/')?>bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- CK Editor -->
+<script src="<?php echo base_url('template/lte/')?>bower_components/ckeditor/ckeditor.js"></script>
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    // Replace the <textarea id="editor1">
+    CKEDITOR.replace('isi_tentang_kami')
+  })
+ 
+</script>
+<?php
 }

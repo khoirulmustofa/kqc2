@@ -314,7 +314,7 @@ class Admin extends CI_Controller {
 		$this->form_validation->set_rules ( 'first_name', 'first name', 'trim|required' );
 		$this->form_validation->set_rules ( 'last_name', 'last name', 'trim|required' );
 		$this->form_validation->set_rules ( 'email', 'email', 'trim|required|valid_email|is_unique[' . $tables ['users'] . '.email]' );
-		$this->form_validation->set_rules ( 'phone', 'phone', 'trim|required' );
+		$this->form_validation->set_rules ( 'phone', 'phone', 'trim|required|numeric' );
 		$this->form_validation->set_rules ( 'password', 'Password', 'required|min_length[' . $this->config->item ( 'min_password_length', 'ion_auth' ) . ']|max_length[' . $this->config->item ( 'max_password_length', 'ion_auth' ) . ']|matches[password_confirm]' );
 		$this->form_validation->set_rules ( 'password_confirm', 'Password Confirm', 'required' );
 		
@@ -325,7 +325,7 @@ class Admin extends CI_Controller {
 		
 		$this->form_validation->set_rules ( 'first_name', 'first name', 'trim|required' );
 		$this->form_validation->set_rules ( 'last_name', 'last name', 'trim|required' );
-		$this->form_validation->set_rules ( 'phone', 'phone', 'trim|required' );
+		$this->form_validation->set_rules ( 'phone', 'phone', 'trim|required|numeric' );
 		
 		$this->form_validation->set_error_delimiters ( '<span class="text-danger">', '</span>' );
 	}
@@ -334,7 +334,7 @@ class Admin extends CI_Controller {
 		
 		$this->form_validation->set_rules ( 'first_name', 'first name', 'trim|required' );
 		$this->form_validation->set_rules ( 'last_name', 'last name', 'trim|required' );
-		$this->form_validation->set_rules ( 'phone', 'phone', 'trim|required' );
+		$this->form_validation->set_rules ( 'phone', 'phone', 'trim|required|numeric' );
 		$this->form_validation->set_rules ( 'password', 'Password', 'required|min_length[' . $this->config->item ( 'min_password_length', 'ion_auth' ) . ']|max_length[' . $this->config->item ( 'max_password_length', 'ion_auth' ) . ']|matches[password_confirm]' );
 		$this->form_validation->set_rules ( 'password_confirm', 'Password Confirm', 'required' );
 		
@@ -688,7 +688,7 @@ class Admin extends CI_Controller {
 				'pagination' => $this->pagination->create_links (),
 				'total_rows' => $config ['total_rows'],
 				'start' => $start,
-				'page' => 'tentang_kami',
+				'page' => 'tentang_kami_list',
 				'title' => 'Tentang Kami' 
 		);
 		$this->template->load ( 'admin/template', 'admin/view_tentang_kami_list', $data );
@@ -701,7 +701,7 @@ class Admin extends CI_Controller {
 				'nama_tentang_kami' => set_value ( 'nama_tentang_kami' ),
 				'isi_tentang_kami' => set_value ( 'isi_tentang_kami' ),
 				'gambar_tentang_kami' => set_value ( 'gambar_tentang_kami' ),
-				'page' => 'tentang_kami',
+				'page' => 'tentang_kami_form',
 				'title' => 'Tentang Kami' 
 		);
 		$this->template->load ( 'admin/template', 'admin/view_tentang_kami_form', $data );
@@ -746,7 +746,7 @@ class Admin extends CI_Controller {
 					'nama_tentang_kami' => set_value ( 'nama_tentang_kami', $row->nama_tentang_kami ),
 					'isi_tentang_kami' => set_value ( 'isi_tentang_kami', $row->isi_tentang_kami ),
 					'gambar_tentang_kami1' => set_value ( 'gambar_tentang_kami', $row->gambar_tentang_kami ),
-					'page' => 'tentang_kami',
+					'page' => 'tentang_kami_form',
 					'title' => 'Tentang Kami' 
 			);
 			$this->template->load ( 'admin/template', 'admin/view_tentang_kami_form', $data );

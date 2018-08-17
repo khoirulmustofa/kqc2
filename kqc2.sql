@@ -192,11 +192,11 @@ CREATE TABLE `menu_groups` (
   `menu_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `menu_groups_menus` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 /*Data for the table `menu_groups` */
 
-insert  into `menu_groups`(`id`,`group_id`,`menu_id`) values (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,2,6);
+insert  into `menu_groups`(`id`,`group_id`,`menu_id`) values (6,2,6),(13,3,4),(14,3,5),(15,3,6),(22,1,1),(23,1,2),(24,1,3),(25,1,4),(26,1,5),(27,1,6),(28,1,7);
 
 /*Table structure for table `menus` */
 
@@ -209,11 +209,11 @@ CREATE TABLE `menus` (
   `icon_menus` varchar(100) NOT NULL,
   `is_main_menu` int(11) NOT NULL,
   PRIMARY KEY (`id_menus`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `menus` */
 
-insert  into `menus`(`id_menus`,`judul_menus`,`link_menus`,`icon_menus`,`is_main_menu`) values (1,'Berita','admin/berita','fa fa-th',0),(2,'Administrator','#','fa fa-user-secret',0),(3,'User','admin/users','fa fa-users',2),(4,'Artikel','admin/artikel','fa fa-tree',0),(5,'Groups','admin/groups','',2),(6,'Menu','admin/menus','',2);
+insert  into `menus`(`id_menus`,`judul_menus`,`link_menus`,`icon_menus`,`is_main_menu`) values (1,'Berita','admin/berita','fa fa-th',0),(2,'Administrator','#','fa fa-user-secret',0),(3,'User','admin/users','fa fa-users',2),(4,'Artikel','admin/artikel','fa fa-tree',0),(5,'Groups','admin/groups','fa fa-home',2),(6,'Menu','admin/menus','fa fa-home',2),(7,'Tentang Kami','admin/tentang_kami','fa fa-home',0);
 
 /*Table structure for table `pendidikan_dakwah` */
 
@@ -334,7 +334,7 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`ip_address`,`username`,`password`,`salt`,`email`,`activation_code`,`forgotten_password_code`,`forgotten_password_time`,`remember_code`,`created_on`,`last_login`,`active`,`first_name`,`last_name`,`company`,`phone`) values (1,'127.0.0.1','Sgs','$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36','','admin@admin.com','',NULL,NULL,'3TD4NqwmC1YF0B1mJC.aSe',1268889823,1534005103,1,'sgs','sfsdg','Kampung Qur\'an Cikarang','34563'),(2,'::1','khoirl@gmail.com','$2y$08$nLwC4y6v.4DMmgDU9EaqkuJSocmTkPQTNbWDLmNuNgfXtBjY1tYWW',NULL,'khoirl@gmail.com',NULL,NULL,NULL,NULL,1532329863,NULL,1,'khoirul','khoirul','khoirul','123123123'),(4,'::1','juhandist@gmail.com','$2y$08$KNKcadjCrenenaHIYzeTo.4s00jukeVvKh2My7K6XowZL/Qh0txVG',NULL,'juhandist@gmail.com',NULL,NULL,NULL,NULL,1533525012,1533810301,1,'aaaaaaaaaaaaaaaa','aaaaaaaaaaaaaaaa','Kampung Qur\'an Cikarang','1111111111111111111'),(5,'::1','Usaha','$2y$08$oFiYEgw1qocuGWRVHpysX.F3KCQ/L1.BYrlG/d8WqU/hGlqmBB8Wi',NULL,'ee@gg.mm',NULL,NULL,NULL,NULL,1533819392,NULL,1,'usaha','usaha','Kampung Qur\'an Cikarang','3601');
+insert  into `users`(`id`,`ip_address`,`username`,`password`,`salt`,`email`,`activation_code`,`forgotten_password_code`,`forgotten_password_time`,`remember_code`,`created_on`,`last_login`,`active`,`first_name`,`last_name`,`company`,`phone`) values (1,'127.0.0.1','Administrator','$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36','','admin@admin.com','',NULL,NULL,'3TD4NqwmC1YF0B1mJC.aSe',1268889823,1534478662,1,'Administrator','sfsdg','Kampung Qur\'an Cikarang','34563'),(2,'::1','khoirl@gmail.com','$2y$08$nLwC4y6v.4DMmgDU9EaqkuJSocmTkPQTNbWDLmNuNgfXtBjY1tYWW',NULL,'khoirl@gmail.com',NULL,NULL,NULL,NULL,1532329863,NULL,1,'khoirul','khoirul','khoirul','123123123'),(4,'::1','juhandist@gmail.com','$2y$08$KNKcadjCrenenaHIYzeTo.4s00jukeVvKh2My7K6XowZL/Qh0txVG',NULL,'juhandist@gmail.com',NULL,NULL,NULL,NULL,1533525012,1533810301,1,'aaaaaaaaaaaaaaaa','aaaaaaaaaaaaaaaa','Kampung Qur\'an Cikarang','1111111111111111111'),(5,'::1','Usaha','$2y$08$oFiYEgw1qocuGWRVHpysX.F3KCQ/L1.BYrlG/d8WqU/hGlqmBB8Wi',NULL,'ee@gg.mm',NULL,NULL,NULL,NULL,1533819392,NULL,1,'usaha','usaha','Kampung Qur\'an Cikarang','3601');
 
 /*Table structure for table `users_groups` */
 
@@ -350,11 +350,11 @@ CREATE TABLE `users_groups` (
   KEY `fk_users_groups_groups1_idx` (`group_id`),
   CONSTRAINT `fk_users_groups_groups1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_groups_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 /*Data for the table `users_groups` */
 
-insert  into `users_groups`(`id`,`user_id`,`group_id`) values (25,1,1),(26,1,2),(4,2,2),(5,2,3),(17,4,2),(18,4,3),(22,5,2);
+insert  into `users_groups`(`id`,`user_id`,`group_id`) values (27,1,1),(28,1,2),(4,2,2),(5,2,3),(17,4,2),(18,4,3),(22,5,2);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

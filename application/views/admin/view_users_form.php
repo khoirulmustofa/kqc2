@@ -58,14 +58,14 @@
 					<div class="form-group">
 						<label for="varchar">Password <?php echo form_error('password') ?></label>
 						<?php echo $button == 'Update' ?  '<br><code>Use if changing password</code>' : ''; ?>
-						<input type="text" class="form-control" name="password"
+						<input type="password" class="form-control" name="password"
 							id="password" placeholder="Password"
 							value="<?php echo $password; ?>" />
 					</div>
 					<div class="form-group">
 						<label for="varchar">Password Confirm <?php echo form_error('password_confirm') ?></label>
 						<?php echo $button == 'Update' ?  '<br><code>Use if changing password</code>' : ''; ?>
-						<input type="text" class="form-control" name="password_confirm"
+						<input type="password" class="form-control" name="password_confirm"
 							id="password_confirm" placeholder="Password Confirm"
 							value="<?php echo $password_confirm; ?>" />
 					</div>
