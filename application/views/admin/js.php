@@ -114,4 +114,58 @@ if (isset ( $page ) && $page == 'artikel_list') {
  
 </script>
 <?php
+}if (isset ( $page ) && $page == 'galeri_foto_form') {
+	?>
+<!-- Select2 -->
+<script
+	src="<?php echo base_url('template/lte/')?>bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- CK Editor -->
+<script
+	src="<?php echo base_url('template/lte/')?>bower_components/ckeditor/ckeditor.js"></script>
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    // Replace the <textarea id="editor1">
+    CKEDITOR.replace('keterangan_galeri_foto')
+  })
+ 
+</script>
+<?php
+}if (isset ( $page ) && $page == 'carousel_form') {
+	?>
+<!-- Select2 -->
+<script
+	src="<?php echo base_url('template/lte/')?>bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- CK Editor -->
+<script
+	src="<?php echo base_url('template/lte/')?>bower_components/ckeditor/ckeditor.js"></script>
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    // Replace the <textarea id="editor1">
+    CKEDITOR.replace('keterangan_carousel')
+  })
+ 
+</script>
+<?php
+}if (isset ( $page ) && $page == 'kata_mereka_form') {
+	?>
+<!-- Select2 -->
+<script
+	src="<?php echo base_url('template/lte/')?>bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- CK Editor -->
+<script
+	src="<?php echo base_url('template/lte/')?>bower_components/ckeditor/ckeditor.js"></script>
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    // Replace the <textarea id="editor1">
+    CKEDITOR.replace('quote_kata_mereka')
+  })
+ 
+</script>
+<?php
 }

@@ -60,7 +60,7 @@
 			<div class="col-md-7 col-sm-9 text-center">
 				<div class="row">
 					<div class="col-md-12">
-						<span class="counter">12d 4h 18m 3s</span>
+						<span class="counter">10d 4h 18m 55s</span>
 					</div>
 				</div>
 			</div>
@@ -98,12 +98,19 @@
 		$start = intval ( $this->input->get ( 'start_berita' ) );
 		$config ['per_page'] = 3;
 		$config ['query_string_segment'] = 'start_berita';
+		$config['base_url'] = base_url() . 'home/';
+		$config['first_url'] = base_url() . 'home/';
+		$config ['full_tag_open'] = '<div><ul class ="paginator">';
+		$config ['next_link'] = '<i class="icofont icofont-long-arrow-right"></i>';
+		$config ['prev_link'] = '<i class="icofont icofont-long-arrow-left"></i>';
 		$config ['page_query_string'] = TRUE;
 		$config ['total_rows'] = $this->Berita_model->total_rows_berita_front ();
 		$berita_data = $this->Berita_model->get_limit_data_berita_front ( $config ['per_page'], $start );
 		
 		$this->load->library ( 'pagination' );
 		$this->pagination->initialize ( $config );
+		
+		$pagination = $this->pagination->create_links ();
 		
 		foreach ( $berita_data as $berita ) {
 			?>
@@ -114,10 +121,8 @@
 	background-repeat: no-repeat;">
 						<span class="post-date"><strong><?php echo tgl_indo($berita->tanggal)?></strong></span>
 					</div>
-					<div class="post-inner">
-						<a href="#">
-							<h3><?php echo ucwords($berita->judul_berita) ?></h3>
-						</a>
+					<div class="post-inner">						
+						<h3><a href="<?php echo  base_url('berita/berita_read/').$berita->judul_seo_berita;?>"><?php echo ucwords($berita->judul_berita) ?></a></h3>
 						<div class="post-meta">
 							<p class="time">
 								<i class="icofont icofont-wall-clock"></i> <?php echo $berita->jam?> WIB
@@ -132,25 +137,22 @@
 			$isi_ber = substr ( $isi_berita, 0, strrpos ( $isi_ber, " " ) );
 			echo $isi_ber;
 			?>
-							<a href="#" class="boxed-btn">Read More</a>
+							<a href="<?php echo  base_url('berita/berita_read/').$berita->judul_seo_berita;?>" class="boxed-btn">Lanjut Membaca</a>
 						</div>
 					</div>
 				</div>
 			</div>
 			<?php } ?>
 		</div>
-		<br><br>
+		<br> <br>
 		<div class="row">
-                <div class="col-md-6 col-md-offset-3 text-center">
-                    <?php
-							$pagination = $this->pagination->create_links ();
-							echo $pagination;
-							?>
+			<div class="col-md-6 col-md-offset-3 text-center">
+                    <?php  echo $pagination; ?>
                 </div>
-            </div>
+		</div>
 	</div>
-	
-	
+
+
 </section>
 <!-- latest event end-->
 <!--our lattest news start-->
@@ -174,12 +176,19 @@
 		$start = intval ( $this->input->get ( 'start_artikel' ) );
 		$config ['per_page'] = 3;
 		$config ['query_string_segment'] = 'start_artikel';
+		$config['base_url'] = base_url() . 'home/';
+		$config['first_url'] = base_url() . 'home/';
+		$config ['full_tag_open'] = '<div><ul class ="paginator">';
+		$config ['next_link'] = '<i class="icofont icofont-long-arrow-right"></i>';
+		$config ['prev_link'] = '<i class="icofont icofont-long-arrow-left"></i>';
 		$config ['page_query_string'] = TRUE;
 		$config ['total_rows'] = $this->Artikel_model->total_rows_artikel_front ();
 		$artikel_data = $this->Artikel_model->get_limit_data_artikel_front ( $config ['per_page'], $start );
 		
 		$this->load->library ( 'pagination' );
 		$this->pagination->initialize ( $config );
+		
+		$pagination = $this->pagination->create_links ();
 		
 		foreach ( $artikel_data as $artikel ) {
 			?>
@@ -190,10 +199,8 @@
 	background-repeat: no-repeat;">
 						<span class="post-date"><strong><?php echo tgl_indo($artikel->tanggal)?></strong></span>
 					</div>
-					<div class="post-inner">
-						<a href="#">
-							<h3><?php echo ucwords($artikel->judul_artikel) ?></h3>
-						</a>
+					<div class="post-inner">						
+							<h3><a href="<?php echo  base_url('artikel/artikel_read/').$artikel->judul_seo_artikel;?>"><?php echo ucwords($artikel->judul_artikel) ?></a></h3>
 						<div class="post-meta">
 							<p class="time">
 								<i class="icofont icofont-wall-clock"></i> <?php echo $artikel->jam?> WIB
@@ -208,12 +215,18 @@
 			$isi_ber = substr ( $isi_artikel, 0, strrpos ( $isi_ber, " " ) );
 			echo $isi_ber;
 			?>
-							<a href="#" class="boxed-btn">Read More</a>
+							<a href="<?php echo  base_url('artikel/artikel_read/').$artikel->judul_seo_artikel;?>" class="boxed-btn">Lanjut Membaca</a>
 						</div>
 					</div>
 				</div>
 			</div>
 			<?php } ?>
+		</div>
+		<br> <br>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 text-center">
+                    <?php  echo $pagination; ?>
+                </div>
 		</div>
 	</div>
 </section>
@@ -221,11 +234,12 @@
 <!--our donator say start-->
 <div class="donator-section our-donator-bg">
 	<div class="container">
+
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2 text-center">
 				<div class="section-title">
 					<h2>
-						What Our <span>Donator Say </span>
+						Kata Mereka<span> Tentang KQC </span>
 					</h2>
 					<span class="title-separetor our-donator"> <img
 						src="<?php echo base_url(); ?>template/<?php echo template(); ?>/img/footer-separetor-icon.png"
@@ -237,54 +251,22 @@
 		<div class="row">
 			<div class="col-md-8 text-center col-md-offset-2">
 				<div class="donator-carousel">
+				<?php
+				$kata_mereka_data = $this->Kata_mereka_model->get_kata_mereka_inview ();
+				foreach ( $kata_mereka_data->result () as $kata_mereka ) {
+					?>
 					<div class="signle-donartor">
 						<div class="donator-picture">
 							<img
-								src="<?php echo base_url(); ?>template/<?php echo template(); ?>/img/donator-1.jpg"
+								src="<?php echo base_url('public/kata_mereka/').$kata_mereka->photo_kata_mereka; ?>"
 								alt="donator image">
 						</div>
 						<div class="donator-content">
-							<h4>ABu Hassan Adam</h4>
-							<p>
-								<i class="icofont icofont-quote-left"></i> Lorem ipsum dolor sit
-								amet, consectetur adipisicing elit, sed do eiusmod tempor
-								incididunt labore et dolore magna aliqua. <i
-									class="icofont icofont-quote-right"></i>
-							</p>
+							<h4><?php echo $kata_mereka->name_kata_mereka ?></h4>
+							<p> <?php echo $kata_mereka->quote_kata_mereka?> </p>
 						</div>
 					</div>
-					<div class="signle-donartor">
-						<div class="donator-picture">
-							<img
-								src="<?php echo base_url(); ?>template/<?php echo template(); ?>/img/donator-1.jpg"
-								alt="donator image">
-						</div>
-						<div class="donator-content">
-							<h4>ABu Hassan Adam</h4>
-							<p>
-								<i class="icofont icofont-quote-left"></i> Lorem ipsum dolor sit
-								amet, consectetur adipisicing elit, sed do eiusmod tempor
-								incididunt labore et dolore magna aliqua. <i
-									class="icofont icofont-quote-right"></i>
-							</p>
-						</div>
-					</div>
-					<div class="signle-donartor">
-						<div class="donator-picture">
-							<img
-								src="<?php echo base_url(); ?>template/<?php echo template(); ?>/img/donator-1.jpg"
-								alt="donator image">
-						</div>
-						<div class="donator-content">
-							<h4>ABu Hassan Adam</h4>
-							<p>
-								<i class="icofont icofont-quote-left"></i> Lorem ipsum dolor sit
-								amet, consectetur adipisicing elit, sed do eiusmod tempor
-								incididunt labore et dolore magna aliqua. <i
-									class="icofont icofont-quote-right"></i>
-							</p>
-						</div>
-					</div>
+					<?php }?>
 				</div>
 			</div>
 		</div>

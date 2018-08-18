@@ -961,15 +961,15 @@ class Admin extends CI_Controller {
 					$config ['create_thumb'] = FALSE;
 					$config ['maintain_ratio'] = FALSE;
 					$config ['quality'] = '50%';
-					$config ['width'] = 600;
-					$config ['height'] = 400;
+					$config ['width'] = 750;
+					$config ['height'] = 337;
 					$config ['new_image'] = 'public/foto_berita/' . $gbr ['file_name'];
 					$this->load->library ( 'image_lib', $config );
 					$this->image_lib->resize ();
 					
 					$data = array (
 							'username' => ucwords ( $this->session->userdata ( 'username' ) ),
-							'judul_berita' => $this->input->post ( 'judul_berita', TRUE ),
+							'judul_berita' => ucwords ( $this->input->post ( 'judul_berita', TRUE ) ),
 							'judul_seo_berita' => seo_title ( $this->input->post ( 'judul_berita', TRUE ) ),
 							'isi_berita' => $this->input->post ( 'isi_berita', TRUE ),
 							'hari' => hari_ini ( date ( 'w' ) ),
@@ -983,7 +983,7 @@ class Admin extends CI_Controller {
 			} else {
 				$data = array (
 						'username' => ucwords ( $this->session->userdata ( 'username' ) ),
-						'judul_berita' => $this->input->post ( 'judul_berita', TRUE ),
+						'judul_berita' => ucwords ( $this->input->post ( 'judul_berita', TRUE ) ),
 						'judul_seo_berita' => seo_title ( $this->input->post ( 'judul_berita', TRUE ) ),
 						'isi_berita' => $this->input->post ( 'isi_berita', TRUE ),
 						'hari' => hari_ini ( date ( 'w' ) ),
@@ -1065,15 +1065,15 @@ class Admin extends CI_Controller {
 					$config ['create_thumb'] = FALSE;
 					$config ['maintain_ratio'] = FALSE;
 					$config ['quality'] = '50%';
-					$config ['width'] = 600;
-					$config ['height'] = 400;
+					$config ['width'] = 750;
+					$config ['height'] = 337;
 					$config ['new_image'] = 'public/foto_berita/' . $gbr ['file_name'];
 					$this->load->library ( 'image_lib', $config );
 					$this->image_lib->resize ();
 					
 					$data = array (
 							'username' => ucwords ( $this->session->userdata ( 'username' ) ),
-							'judul_berita' => $this->input->post ( 'judul_berita', TRUE ),
+							'judul_berita' => ucwords ( $this->input->post ( 'judul_berita', TRUE ) ),
 							'judul_seo_berita' => seo_title ( $this->input->post ( 'judul_berita', TRUE ) ),
 							'isi_berita' => $this->input->post ( 'isi_berita', TRUE ),
 							'hari' => hari_ini ( date ( 'w' ) ),
@@ -1091,7 +1091,7 @@ class Admin extends CI_Controller {
 			} else {
 				$data = array (
 						'username' => ucwords ( $this->session->userdata ( 'username' ) ),
-						'judul_berita' => $this->input->post ( 'judul_berita', TRUE ),
+						'judul_berita' => ucwords ( $this->input->post ( 'judul_berita', TRUE ) ),
 						'judul_seo_berita' => seo_title ( $this->input->post ( 'judul_berita', TRUE ) ),
 						'isi_berita' => $this->input->post ( 'isi_berita', TRUE ),
 						'hari' => hari_ini ( date ( 'w' ) ),
@@ -1234,8 +1234,8 @@ class Admin extends CI_Controller {
 					$config ['create_thumb'] = FALSE;
 					$config ['maintain_ratio'] = FALSE;
 					$config ['quality'] = '50%';
-					$config ['width'] = 600;
-					$config ['height'] = 400;
+					$config ['width'] = 750;
+					$config ['height'] = 337;
 					$config ['new_image'] = 'public/foto_artikel/' . $gbr ['file_name'];
 					$this->load->library ( 'image_lib', $config );
 					$this->image_lib->resize ();
@@ -1338,8 +1338,8 @@ class Admin extends CI_Controller {
 					$config ['create_thumb'] = FALSE;
 					$config ['maintain_ratio'] = FALSE;
 					$config ['quality'] = '50%';
-					$config ['width'] = 600;
-					$config ['height'] = 400;
+					$config ['width'] = 750;
+					$config ['height'] = 337;
 					$config ['new_image'] = 'public/foto_artikel/' . $gbr ['file_name'];
 					$this->load->library ( 'image_lib', $config );
 					$this->image_lib->resize ();
@@ -1555,6 +1555,7 @@ class Admin extends CI_Controller {
 	// end rekening
 	
 	// carousel
+	// belum di kerjakan
 	public function carousel() {
 		$q = urldecode ( $this->input->get ( 'q', TRUE ) );
 		$start = intval ( $this->input->get ( 'start' ) );
@@ -1583,7 +1584,7 @@ class Admin extends CI_Controller {
 				'pagination' => $this->pagination->create_links (),
 				'total_rows' => $config ['total_rows'],
 				'start' => $start,
-				'page' => 'carousel',
+				'page' => 'carousel_list',
 				'title' => 'Carousel' 
 		);
 		$this->template->load ( 'admin/template', 'admin/view_carousel_list', $data );
@@ -1598,7 +1599,7 @@ class Admin extends CI_Controller {
 				'keterangan_carousel' => set_value ( 'keterangan_carousel' ),
 				'active_carousel' => set_value ( 'active_carousel' ),
 				'gambar_carousel_1' => set_value ( 'gambar_carousel_1' ),
-				'page' => 'carousel',
+				'page' => 'carousel_form',
 				'title' => 'Carousel' 
 		);
 		$this->template->load ( 'admin/template', 'admin/view_carousel_form', $data );
@@ -1609,28 +1610,43 @@ class Admin extends CI_Controller {
 		if ($this->form_validation->run () == FALSE) {
 			$this->carousel_create ();
 		} else {
-			$config ['upload_path'] = 'public/carousel/';
-			$config ['allowed_types'] = 'gif|jpg|png|JPG|JPEG';
-			$config ['max_size'] = '3000'; // kb
-			$this->load->library ( 'upload', $config );
-			$this->upload->do_upload ( 'gambar_carousel' );
-			$hasil = $this->upload->data ();
 			
-			if ($hasil ['file_name'] == '') {
+			$config ['upload_path'] = 'public/carousel/'; // path folder
+			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG'; // type yang dapat diakses bisa anda sesuaikan
+			$config ['encrypt_name'] = TRUE; // Enkripsi nama yang terupload
+			$this->upload->initialize ( $config );
+			
+			if (! empty ( $_FILES ['gambar_carousel'] ['name'] )) {
+				
+				if ($this->upload->do_upload ( 'gambar_carousel' )) {
+					$gbr = $this->upload->data ();
+					// Compress Image
+					$config ['image_library'] = 'gd2';
+					$config ['source_image'] = 'public/carousel/' . $gbr ['file_name'];
+					$config ['create_thumb'] = FALSE;
+					$config ['maintain_ratio'] = FALSE;
+					$config ['quality'] = '50%';
+					$config ['width'] = 600;
+					$config ['height'] = 400;
+					$config ['new_image'] = 'public/carousel/' . $gbr ['file_name'];
+					$this->load->library ( 'image_lib', $config );
+					$this->image_lib->resize ();
+					
+					$data = array (
+							'nama_carousel' => ucwords ( $this->input->post ( 'nama_carousel', TRUE ) ),
+							'keterangan_carousel' => $this->input->post ( 'keterangan_carousel', TRUE ),
+							'active_carousel' => $this->input->post ( 'active_carousel', TRUE ) == 'active' ? 'active' : '',
+							'gambar_carousel' => $hasil ['file_name'] 
+					);
+				}
+			} else {
 				$data = array (
-						'nama_carousel' => $this->input->post ( 'nama_carousel', TRUE ),
+						'nama_carousel' => ucwords ( $this->input->post ( 'nama_carousel', TRUE ) ),
 						'keterangan_carousel' => $this->input->post ( 'keterangan_carousel', TRUE ),
 						'active_carousel' => $this->input->post ( 'active_carousel', TRUE ) == 'active' ? 'active' : '' 
 				);
-			} else {
-				$data = array (
-						'nama_carousel' => $this->input->post ( 'nama_carousel', TRUE ),
-						'keterangan_carousel' => $this->input->post ( 'keterangan_carousel', TRUE ),
-						'active_carousel' => $this->input->post ( 'active_carousel', TRUE ) == 'active' ? 'active' : '',
-						'gambar_carousel' => $hasil ['file_name'] 
-				);
 			}
-			// var_dump($this->input->post ( 'gambar_carousel_1', TRUE ));
+			
 			$this->Carousel_model->insert_carousel ( $data );
 			$this->session->set_flashdata ( 'message', 'Create Record Success' );
 			redirect ( site_url ( 'admin/carousel' ) );
@@ -1648,7 +1664,7 @@ class Admin extends CI_Controller {
 					'keterangan_carousel' => set_value ( 'keterangan_carousel', $row->keterangan_carousel ),
 					'active_carousel' => set_value ( 'active_carousel', $row->active_carousel ),
 					'gambar_carousel_1' => set_value ( 'gambar_carousel', $row->gambar_carousel ),
-					'page' => 'carousel',
+					'page' => 'carousel_form',
 					'title' => 'Carousel' 
 			);
 			$this->template->load ( 'admin/template', 'admin/view_carousel_form', $data );
@@ -1778,7 +1794,7 @@ class Admin extends CI_Controller {
 		$this->pendidikan_dakwah_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
-			$this->pendidikan_dakwah_update ( $this->input->post ( 'id_pendidikan_dakwah', TRUE ) );
+			$this->Pendidikan_dakwah_model ( $this->input->post ( 'id_pendidikan_dakwah', TRUE ) );
 		} else {
 			$config ['upload_path'] = 'public/pendidikan_dakwah/'; // path folder
 			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG'; // type yang dapat diakses bisa anda sesuaikan
@@ -1814,9 +1830,9 @@ class Admin extends CI_Controller {
 				);
 			}
 			
-			$this->Tentang_kami_model->insert_tentang_kami ( $data );
+			$this->Pendidikan_dakwah_model->insert_pendidikan_dakwah ( $data );
 			$this->session->set_flashdata ( 'message', 'Create Record Success' );
-			redirect ( site_url ( 'admin/tentang_kami' ) );
+			redirect ( site_url ( 'admin/pendidikan_dakwah' ) );
 		}
 	}
 	public function pendidikan_dakwah_update($id) {
@@ -1851,7 +1867,7 @@ class Admin extends CI_Controller {
 		$this->pendidikan_dakwah_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
-			$this->pendidikan_dakwah_update ( $this->input->post ( 'id_pendidikan_dakwah', TRUE ) );
+			$this->Pendidikan_dakwah_model ( $this->input->post ( 'id_pendidikan_dakwah', TRUE ) );
 		} else {
 			$config ['upload_path'] = 'public/pendidikan_dakwah/'; // path folder
 			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG'; // type yang dapat diakses bisa anda sesuaikan
@@ -1891,9 +1907,9 @@ class Admin extends CI_Controller {
 				);
 			}
 			
-			$this->Tentang_kami_model->insert_tentang_kami ( $data );
+			$this->Pendidikan_dakwah_model->update_pendidikan_dakwah ( $this->input->post ( 'id_pendidikan_dakwah', TRUE ), $data );
 			$this->session->set_flashdata ( 'message', 'Create Record Success' );
-			redirect ( site_url ( 'admin/tentang_kami' ) );
+			redirect ( site_url ( 'admin/pendidikan_dakwah' ) );
 		}
 	}
 	public function pendidikan_dakwah_delete($id) {
@@ -1906,6 +1922,10 @@ class Admin extends CI_Controller {
 		if ($row) {
 			$this->Pendidikan_dakwah_model->delete_pendidikan_dakwah ( $id );
 			$this->session->set_flashdata ( 'message', 'Delete Record Success' );
+			$path_file = 'public/pendidikan_dakwah/' . $row->gambar_pendidikan_dakwah;
+			if (file_exists ( $path_file )) {
+				unlink ( $path_file );
+			}
 			redirect ( site_url ( 'admin/pendidikan_dakwah' ) );
 		} else {
 			$this->session->set_flashdata ( 'message', 'Record Not Found' );
@@ -1924,6 +1944,10 @@ class Admin extends CI_Controller {
 	
 	// Galeri Poto
 	public function galeri_foto() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$q = urldecode ( $this->input->get ( 'q', TRUE ) );
 		$start = intval ( $this->input->get ( 'start' ) );
 		
@@ -1950,12 +1974,16 @@ class Admin extends CI_Controller {
 				'pagination' => $this->pagination->create_links (),
 				'total_rows' => $config ['total_rows'],
 				'start' => $start,
-				'page' => 'galeri_foto',
+				'page' => 'galeri_foto_list',
 				'title' => 'Galeri Foto' 
 		);
 		$this->template->load ( 'admin/template', 'admin/view_galeri_foto_list', $data );
 	}
 	public function galeri_foto_create() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$data = array (
 				'button' => 'Create',
 				'action' => site_url ( 'admin/galeri_foto_create_action' ),
@@ -1963,12 +1991,16 @@ class Admin extends CI_Controller {
 				'nama_galeri_foto' => set_value ( 'nama_galeri_foto' ),
 				'keterangan_galeri_foto' => set_value ( 'keterangan_galeri_foto' ),
 				'gambar_galeri_foto_1' => set_value ( 'gambar_galeri_foto' ),
-				'page' => 'galeri_foto',
+				'page' => 'galeri_foto_form',
 				'title' => 'Galeri Foto' 
 		);
 		$this->template->load ( 'admin/template', 'admin/view_galeri_foto_form', $data );
 	}
 	public function galeri_foto_create_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->galeri_foto_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
@@ -2014,6 +2046,10 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function galeri_foto_update($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Galeri_foto_model->get_by_id_galeri_foto ( $id );
 		
 		if ($row) {
@@ -2024,7 +2060,7 @@ class Admin extends CI_Controller {
 					'nama_galeri_foto' => set_value ( 'nama_galeri_foto', $row->nama_galeri_foto ),
 					'keterangan_galeri_foto' => set_value ( 'keterangan_galeri_foto', $row->keterangan_galeri_foto ),
 					'gambar_galeri_foto_1' => set_value ( 'gambar_galeri_foto', $row->gambar_galeri_foto ),
-					'page' => 'galeri_foto',
+					'page' => 'galeri_foto_form',
 					'title' => 'Galeri Foto' 
 			);
 			// var_dump($data);
@@ -2035,6 +2071,10 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function galeri_foto_update_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->galeri_foto_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
@@ -2084,6 +2124,10 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function galeri_foto_delete($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Galeri_foto_model->get_by_id_galeri_foto ( $id );
 		
 		if ($row) {
@@ -2111,6 +2155,10 @@ class Admin extends CI_Controller {
 	
 	// Galeri Video
 	public function galeri_video() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$q = urldecode ( $this->input->get ( 'q', TRUE ) );
 		$start = intval ( $this->input->get ( 'start' ) );
 		
@@ -2143,6 +2191,10 @@ class Admin extends CI_Controller {
 		$this->template->load ( 'admin/template', 'admin/view_galeri_video_list', $data );
 	}
 	public function galeri_video_create() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$data = array (
 				'button' => 'Create',
 				'action' => site_url ( 'admin/galeri_video_create_action' ),
@@ -2155,13 +2207,17 @@ class Admin extends CI_Controller {
 		$this->template->load ( 'admin/template', 'admin/view_galeri_video_form', $data );
 	}
 	public function galeri_video_create_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->galeri_video_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
 			$this->galeri_video_create ();
 		} else {
 			$data = array (
-					'nama_galeri_video' => $this->input->post ( 'nama_galeri_video', TRUE ),
+					'nama_galeri_video' => ucwords ( $this->input->post ( 'nama_galeri_video', TRUE ) ),
 					'link_galeri_video' => $this->input->post ( 'link_galeri_video', TRUE ) 
 			);
 			
@@ -2171,6 +2227,10 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function galeri_video_update($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Galeri_video_model->get_by_id_galeri_video ( $id );
 		
 		if ($row) {
@@ -2190,13 +2250,17 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function galeri_video_update_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->galeri_video_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
 			$this->galeri_video_update ( $this->input->post ( 'id_galeri_video', TRUE ) );
 		} else {
 			$data = array (
-					'nama_galeri_video' => $this->input->post ( 'nama_galeri_video', TRUE ),
+					'nama_galeri_video' => ucwords ( $this->input->post ( 'nama_galeri_video', TRUE ) ),
 					'link_galeri_video' => $this->input->post ( 'link_galeri_video', TRUE ) 
 			);
 			
@@ -2206,6 +2270,10 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function galeri_video_delete($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Galeri_video_model->get_by_id_galeri_video ( $id );
 		
 		if ($row) {
@@ -2408,5 +2476,215 @@ class Admin extends CI_Controller {
 		$this->form_validation->set_rules ( 'id_highlight', 'id_highlight', 'trim' );
 		$this->form_validation->set_error_delimiters ( '<span class="text-danger">', '</span>' );
 	}
-	//
+	
+	// Kata Mereka
+	public function kata_mereka() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
+		$q = urldecode ( $this->input->get ( 'q', TRUE ) );
+		$start = intval ( $this->input->get ( 'start' ) );
+		
+		if ($q != '') {
+			$config ['base_url'] = base_url () . 'admin/kata_mereka/?q=' . urlencode ( $q );
+			$config ['first_url'] = base_url () . 'admin/kata_mereka/?q=' . urlencode ( $q );
+		} else {
+			$config ['base_url'] = base_url () . 'admin/kata_mereka/';
+			$config ['first_url'] = base_url () . 'admin/kata_mereka/';
+		}
+		
+		$config ['per_page'] = 3;
+		$config ['page_query_string'] = TRUE;
+		$config ['total_rows'] = $this->Kata_mereka_model->total_rows_kata_mereka ( $q );
+		$kata_mereka = $this->Kata_mereka_model->get_limit_data_kata_mereka ( $config ['per_page'], $start, $q );
+		
+		$this->load->library ( 'pagination' );
+		$this->pagination->initialize ( $config );
+		
+		$data = array (
+				'button' => 'List',
+				'kata_mereka_data' => $kata_mereka,
+				'q' => $q,
+				'pagination' => $this->pagination->create_links (),
+				'total_rows' => $config ['total_rows'],
+				'start' => $start,
+				'page' => 'kata_mereka_list',
+				'title' => 'Kata Mereka' 
+		);
+		$this->template->load ( 'admin/template', 'admin/view_kata_mereka_list', $data );
+	}
+	public function kata_mereka_create() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
+		$data = array (
+				'button' => 'Create',
+				'action' => site_url ( 'admin/kata_mereka_create_action' ),
+				'id_kata_mereka' => set_value ( 'id_kata_mereka' ),
+				'name_kata_mereka' => set_value ( 'name_kata_mereka' ),
+				'photo_kata_mereka_1' => set_value ( 'photo_kata_mereka' ),
+				'quote_kata_mereka' => set_value ( 'quote_kata_mereka' ),
+				'page' => 'kata_mereka_form',
+				'title' => 'Galeri Foto' 
+		);
+		$this->template->load ( 'admin/template', 'admin/view_kata_mereka_form', $data );
+	}
+	public function kata_mereka_create_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
+		$this->kata_mereka_rules ();
+		
+		if ($this->form_validation->run () == FALSE) {
+			$this->kata_mereka_create ();
+		} else {
+			
+			$config ['upload_path'] = 'public/kata_mereka/'; // path folder
+			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG'; // type yang dapat diakses bisa anda sesuaikan
+			$config ['encrypt_name'] = TRUE; // Enkripsi nama yang terupload
+			$this->upload->initialize ( $config );
+			
+			if (! empty ( $_FILES ['photo_kata_mereka'] ['name'] )) {
+				
+				if ($this->upload->do_upload ( 'photo_kata_mereka' )) {
+					$gbr = $this->upload->data ();
+					// Compress Image
+					$config ['image_library'] = 'gd2';
+					$config ['source_image'] = 'public/kata_mereka/' . $gbr ['file_name'];
+					$config ['create_thumb'] = FALSE;
+					$config ['maintain_ratio'] = FALSE;
+					$config ['quality'] = '50%';
+					$config ['width'] = 600;
+					$config ['height'] = 400;
+					$config ['new_image'] = 'public/kata_mereka/' . $gbr ['file_name'];
+					$this->load->library ( 'image_lib', $config );
+					$this->image_lib->resize ();
+					
+					$data = array (
+							'name_kata_mereka' => ucwords ( $this->input->post ( 'name_kata_mereka', TRUE ) ),
+							'photo_kata_mereka' => $gbr ['file_name'],
+							'quote_kata_mereka' => $this->input->post ( 'quote_kata_mereka', TRUE ) 
+					);
+				}
+			} else {
+				$data = array (
+						'name_kata_mereka' => $this->input->post ( 'name_kata_mereka', TRUE ),
+						'quote_kata_mereka' => $this->input->post ( 'quote_kata_mereka', TRUE ) 
+				);
+			}
+			$this->Kata_mereka_model->insert_kata_mereka ( $data );
+			$this->session->set_flashdata ( 'message', 'Create Kata Mereka Record Success' );
+			redirect ( site_url ( 'admin/kata_mereka' ) );
+		}
+	}
+	public function kata_mereka_update($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
+		$row = $this->Kata_mereka_model->get_by_id_kata_mereka ( $id );
+		
+		if ($row) {
+			$data = array (
+					'button' => 'Update',
+					'action' => site_url ( 'admin/kata_mereka_update_action' ),
+					'id_kata_mereka' => set_value ( 'id_kata_mereka', $row->id_kata_mereka ),
+					'name_kata_mereka' => set_value ( 'name_kata_mereka', $row->name_kata_mereka ),
+					'photo_kata_mereka_1' => set_value ( 'photo_kata_mereka', $row->photo_kata_mereka ),
+					'quote_kata_mereka' => set_value ( 'quote_kata_mereka', $row->quote_kata_mereka ),
+					'page' => 'kata_mereka_form',
+					'title' => 'Galeri Foto' 
+			);
+			$this->template->load ( 'admin/template', 'admin/view_kata_mereka_form', $data );
+		} else {
+			$this->session->set_flashdata ( 'message', 'Record Not Found' );
+			redirect ( site_url ( 'admin/kata_mereka' ) );
+		}
+	}
+	public function kata_mereka_update_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
+		$this->kata_mereka_rules ();
+		
+		if ($this->form_validation->run () == FALSE) {
+			$this->kata_mereka_update ( $this->input->post ( 'id_kata_mereka', TRUE ) );
+		} else {
+			
+			$config ['upload_path'] = 'public/kata_mereka/'; // path folder
+			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG'; // type yang dapat diakses bisa anda sesuaikan
+			$config ['encrypt_name'] = TRUE; // Enkripsi nama yang terupload
+			$this->upload->initialize ( $config );
+			
+			if (! empty ( $_FILES ['photo_kata_mereka'] ['name'] )) {
+				
+				if ($this->upload->do_upload ( 'photo_kata_mereka' )) {
+					$gbr = $this->upload->data ();
+					// Compress Image
+					$config ['image_library'] = 'gd2';
+					$config ['source_image'] = 'public/kata_mereka/' . $gbr ['file_name'];
+					$config ['create_thumb'] = FALSE;
+					$config ['maintain_ratio'] = FALSE;
+					$config ['quality'] = '50%';
+					$config ['width'] = 100;
+					$config ['height'] = 100;
+					$config ['new_image'] = 'public/kata_mereka/' . $gbr ['file_name'];
+					$this->load->library ( 'image_lib', $config );
+					$this->image_lib->resize ();
+					
+					$data = array (
+							'name_kata_mereka' => ucwords ( $this->input->post ( 'name_kata_mereka', TRUE ) ),
+							'photo_kata_mereka' => $gbr ['file_name'],
+							'quote_kata_mereka' => $this->input->post ( 'quote_kata_mereka', TRUE ) 
+					);
+					$path_file = 'public/kata_mereka/' . $this->input->post ( 'photo_kata_mereka_1', TRUE );
+					if (file_exists ( $path_file )) {
+						unlink ( $path_file );
+					}
+				}
+			} else {
+				$data = array (
+						'name_kata_mereka' => ucwords ( $this->input->post ( 'name_kata_mereka', TRUE ) ),
+						'quote_kata_mereka' => $this->input->post ( 'quote_kata_mereka', TRUE ) 
+				);
+			}
+			
+			$this->Kata_mereka_model->update_kata_mereka ( $this->input->post ( 'id_kata_mereka', TRUE ), $data );
+			$this->session->set_flashdata ( 'message', 'Update Record Kata Mereka Success' );
+			redirect ( site_url ( 'admin/kata_mereka' ) );
+		}
+	}
+	public function kata_mereka_delete($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
+		$row = $this->Kata_mereka_model->get_by_id_kata_mereka ( $id );
+		
+		if ($row) {
+			$this->Kata_mereka_model->delete_kata_mereka ( $id );
+			$this->session->set_flashdata ( 'message', 'Delete kata Mereka Record Success' );
+			$path_file = 'public/kata_mereka/' . $row->photo_kata_mereka;
+			if (file_exists ( $path_file )) {
+				unlink ( $path_file );
+			}
+			redirect ( site_url ( 'admin/kata_mereka' ) );
+		} else {
+			$this->session->set_flashdata ( 'message', 'Record Not Found' );
+			redirect ( site_url ( 'admin/kata_mereka' ) );
+		}
+	}
+	public function kata_mereka_rules() {
+		$this->form_validation->set_rules ( 'name_kata_mereka', 'name kata mereka', 'trim|required' );
+		$this->form_validation->set_rules ( 'photo_kata_mereka', 'photo kata mereka' );
+		$this->form_validation->set_rules ( 'quote_kata_mereka', 'quote kata mereka', 'trim|required' );
+		
+		$this->form_validation->set_rules ( 'id_kata_mereka', 'id_kata_mereka', 'trim' );
+		$this->form_validation->set_error_delimiters ( '<span class="text-danger">', '</span>' );
+	}
+	// End Kata Mereka
 }

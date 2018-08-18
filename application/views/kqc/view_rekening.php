@@ -5,7 +5,7 @@
 			<div class="col-md-12">
 				<h1>REKENING</h1>
 				<p>
-					<a href="<?php echo base_url()?>">Beranda</a>/<?php echo ucwords($title)?>
+					<a href="<?php echo base_url()?>">Beranda </a>/ <?php echo ucwords($title)?>
 				</p>
 			</div>
 		</div>

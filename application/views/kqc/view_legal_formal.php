@@ -5,7 +5,7 @@
 			<div class="col-md-12">
 				<h1>Tetang Kami</h1>
 				<p>
-					<a href="<?php echo base_url()?>">Beranda</a>/<?php echo ucwords($title)?>
+					<a href="<?php echo base_url()?>">Beranda </a>/ <?php echo ucwords($title)?>
 				</p>
 			</div>
 		</div>
@@ -19,7 +19,7 @@
 
 			<div class="col-md-8">
 				<div class="single-blog-page">
-					
+
 					<h2><?php echo ucwords($title)?> Kampung Qur'an Cikarang</h2>
 					
 					<?php echo $isi_tentang_kami; ?>
