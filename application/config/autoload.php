@@ -165,5 +165,6 @@ $autoload ['model'] = array (
 		'Users_groups_model',
 		'Groups_model',
 		'Menus_model',
-		'Kata_mereka_model' 
+		'Kata_mereka_model' ,
+		'Kegiatan_model'
 );

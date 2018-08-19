@@ -46,25 +46,59 @@
 <!--event countdown start-->
 <div class="event-counter">
 	<div class="container">
+	<?php
+	$kegiatan_data = $this->Kegiatan_model->get_one_data_kegiatan ( 1, 0 );
+	foreach ( $kegiatan_data->result () as $kegiatan ) {
+		?>
+		
+		
+	
 		<div class="row">
-			<div class="col-md-3 text-left">
+			<div class="col-md-4 text-left">
 				<div class="event-details">
 					<h3>
-						<i class="icofont icofont-ui-calendar"></i> UPCOMING event
+						<i class="icofont icofont-ui-calendar"></i> <?php echo $kegiatan->name_kegiatan;?>
 					</h3>
 					<span class="sp-line"></span>
-					<p>Importance Of Prayer In Islam</p>
-					<p>27 th December, 2017</p>
+					<p><?php echo $kegiatan->tempat_kegiatan;?></p>
+					<p><?php echo tgl_indo($kegiatan->waktu_kegiatan)?></p>
 				</div>
 			</div>
 			<div class="col-md-7 col-sm-9 text-center">
 				<div class="row">
 					<div class="col-md-12">
-						<span class="counter">10d 4h 18m 55s</span>
+					<?php
+		$time = strtotime ( $kegiatan->waktu_kegiatan );
+		$jam = date ( "H", $time );
+		$menit = date ( "i", $time );
+		$detik = date ( "s", $time );
+		$hari = date ( "d", $time );
+		$bulan = date ( "m", $time );
+		$tahun = date ( "Y", $time );
+		
+		$waktu_tujuan = mktime ( $jam, $menit, $detik, $bulan, $hari, $tahun );
+		$waktu_sekarang = mktime ( date ( "H" ), date ( "i" ), date ( "s" ), date ( "m" ), date ( "d" ), date ( "Y" ) );
+		$selisih_waktu = $waktu_tujuan - $waktu_sekarang;
+		// Untuk menghitung jumlah dalam satuan hari:
+		$jumlah_hari = floor ( $selisih_waktu / 86400 );
+		
+		// Untuk menghitung jumlah dalam satuan jam:
+		$sisa = $selisih_waktu % 86400;
+		$jumlah_jam = floor ( $sisa / 3600 );
+		
+		// Untuk menghitung jumlah dalam satuan menit:
+		$sisa = $sisa % 3600;
+		$jumlah_menit = floor ( $sisa / 60 );
+		
+		// Untuk menghitung jumlah dalam satuan detik:
+		$sisa = $sisa % 60;
+		$jumlah_detik = floor ( $sisa / 1 );
+		?>
+						<span class="counter"><?php echo $jumlah_hari;?>d <?php echo $jumlah_jam;?>h <?php echo $jumlah_menit;?>m <?php echo $jumlah_detik;?>s</span>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-2 col-sm-3 text-right">
+			<!-- <div class="col-md-2 col-sm-3 text-right">
 				<div class="event-counter-links">
 					<a href="#" class="boxed-btn">Join Now</a>
 					<p>
@@ -72,8 +106,11 @@
 							class="icofont icofont-bubble-right"></i>
 					</p>
 				</div>
-			</div>
+			</div> -->
 		</div>
+		<?php
+	}
+	?>
 	</div>
 </div>
 <!--event countdown end-->
@@ -98,8 +135,8 @@
 		$start = intval ( $this->input->get ( 'start_berita' ) );
 		$config ['per_page'] = 3;
 		$config ['query_string_segment'] = 'start_berita';
-		$config['base_url'] = base_url() . 'home/';
-		$config['first_url'] = base_url() . 'home/';
+		$config ['base_url'] = base_url () . 'home/';
+		$config ['first_url'] = base_url () . 'home/';
 		$config ['full_tag_open'] = '<div><ul class ="paginator">';
 		$config ['next_link'] = '<i class="icofont icofont-long-arrow-right"></i>';
 		$config ['prev_link'] = '<i class="icofont icofont-long-arrow-left"></i>';
@@ -121,8 +158,11 @@
 	background-repeat: no-repeat;">
 						<span class="post-date"><strong><?php echo tgl_indo($berita->tanggal)?></strong></span>
 					</div>
-					<div class="post-inner">						
-						<h3><a href="<?php echo  base_url('berita/berita_read/').$berita->judul_seo_berita;?>"><?php echo ucwords($berita->judul_berita) ?></a></h3>
+					<div class="post-inner">
+						<h3>
+							<a
+								href="<?php echo  base_url('berita/berita_read/').$berita->judul_seo_berita;?>"><?php echo ucwords($berita->judul_berita) ?></a>
+						</h3>
 						<div class="post-meta">
 							<p class="time">
 								<i class="icofont icofont-wall-clock"></i> <?php echo $berita->jam?> WIB
@@ -137,7 +177,9 @@
 			$isi_ber = substr ( $isi_berita, 0, strrpos ( $isi_ber, " " ) );
 			echo $isi_ber;
 			?>
-							<a href="<?php echo  base_url('berita/berita_read/').$berita->judul_seo_berita;?>" class="boxed-btn">Lanjut Membaca</a>
+							<a
+								href="<?php echo  base_url('berita/berita_read/').$berita->judul_seo_berita;?>"
+								class="boxed-btn">Lanjut Membaca</a>
 						</div>
 					</div>
 				</div>
@@ -176,8 +218,8 @@
 		$start = intval ( $this->input->get ( 'start_artikel' ) );
 		$config ['per_page'] = 3;
 		$config ['query_string_segment'] = 'start_artikel';
-		$config['base_url'] = base_url() . 'home/';
-		$config['first_url'] = base_url() . 'home/';
+		$config ['base_url'] = base_url () . 'home/';
+		$config ['first_url'] = base_url () . 'home/';
 		$config ['full_tag_open'] = '<div><ul class ="paginator">';
 		$config ['next_link'] = '<i class="icofont icofont-long-arrow-right"></i>';
 		$config ['prev_link'] = '<i class="icofont icofont-long-arrow-left"></i>';
@@ -199,8 +241,11 @@
 	background-repeat: no-repeat;">
 						<span class="post-date"><strong><?php echo tgl_indo($artikel->tanggal)?></strong></span>
 					</div>
-					<div class="post-inner">						
-							<h3><a href="<?php echo  base_url('artikel/artikel_read/').$artikel->judul_seo_artikel;?>"><?php echo ucwords($artikel->judul_artikel) ?></a></h3>
+					<div class="post-inner">
+						<h3>
+							<a
+								href="<?php echo  base_url('artikel/artikel_read/').$artikel->judul_seo_artikel;?>"><?php echo ucwords($artikel->judul_artikel) ?></a>
+						</h3>
 						<div class="post-meta">
 							<p class="time">
 								<i class="icofont icofont-wall-clock"></i> <?php echo $artikel->jam?> WIB
@@ -215,7 +260,9 @@
 			$isi_ber = substr ( $isi_artikel, 0, strrpos ( $isi_ber, " " ) );
 			echo $isi_ber;
 			?>
-							<a href="<?php echo  base_url('artikel/artikel_read/').$artikel->judul_seo_artikel;?>" class="boxed-btn">Lanjut Membaca</a>
+							<a
+								href="<?php echo  base_url('artikel/artikel_read/').$artikel->judul_seo_artikel;?>"
+								class="boxed-btn">Lanjut Membaca</a>
 						</div>
 					</div>
 				</div>

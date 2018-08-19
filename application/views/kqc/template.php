@@ -229,9 +229,9 @@
 						</div>
 						<div class="widget-three-body">
 							<ul>
-								<li><a href="event-list.html"><i
+								<li><a href="<?php echo base_url('artikel')?>"><i
 										class="icofont icofont-curved-double-right"></i> ARTIKEL</a></li>
-								<li><a href="single-cause.html"><i
+								<li><a href="<?php echo base_url('berita')?>"><i
 										class="icofont icofont-curved-double-right"></i> BERITA</a></li>
 								<li><a href="donate.html"><i
 										class="icofont icofont-curved-double-right"></i> KEGIATAN</a></li>

@@ -12,11 +12,10 @@ class Admin extends CI_Controller {
 			return redirect ( site_url ( 'admin/login' ) );
 		}
 		$data = array (
-				
-				'tittle' => 'Beranda',
-				'page' => 'Beranda' 
+				'page' => 'beranda_list',
+				'title' => 'Beranda'
 		);
-		$this->template->load ( 'admin/template', 'admin/view_dasboard' );
+		$this->template->load ( 'admin/template', 'admin/view_dasboard',$data );
 	}
 	
 	// render

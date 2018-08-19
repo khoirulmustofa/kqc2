@@ -6,33 +6,30 @@ class Berita extends CI_Controller {
 		parent::__construct ();
 	}
 	public function index() {
-		$q = urldecode ( $this->input->get ( 'q', TRUE ) );
 		$start = intval ( $this->input->get ( 'start' ) );
-		
-		if ($q != '') {
-			$config ['base_url'] = base_url () . 'berita/?q=' . urlencode ( $q );
-			$config ['first_url'] = base_url () . 'berita/?q=' . urlencode ( $q );
-		} else {
-			$config ['base_url'] = base_url () . 'berita/';
-			$config ['first_url'] = base_url () . 'berita/';
-		}
-		
-		$config ['per_page'] = 10;
+		$config ['per_page'] = 5;
+		$config ['query_string_segment'] = 'start';
+		$config ['base_url'] = base_url () . 'berita/';
+		$config ['first_url'] = base_url () . 'berita/';
+		$config ['full_tag_open'] = '<div><ul class ="paginator">';
+		$config ['next_link'] = '<i class="icofont icofont-long-arrow-right"></i>';
+		$config ['prev_link'] = '<i class="icofont icofont-long-arrow-left"></i>';
 		$config ['page_query_string'] = TRUE;
-		$config ['total_rows'] = $this->Berita_model->total_rows_berita ( $q );
-		$berita = $this->Berita_model->get_limit_data_berita ( $config ['per_page'], $start, $q );
+		$config ['total_rows'] = $this->Berita_model->total_rows_berita_front ();
+		$berita = $this->Berita_model->get_limit_data_berita_front ( $config ['per_page'], $start );
 		
 		$this->load->library ( 'pagination' );
 		$this->pagination->initialize ( $config );
 		
 		$data = array (
 				'berita_data' => $berita,
-				'q' => $q,
 				'pagination' => $this->pagination->create_links (),
 				'total_rows' => $config ['total_rows'],
-				'start' => $start 
+				'start' => $start,
+				'title' => 'berita List',
+				'page' => 'berita' 
 		);
-		$this->load->view ( 'berita/berita_list', $data );
+		$this->template->load ( template () . '/template', template () . '/view_berita_list', $data );
 	}
 	public function berita_read($judul_seo) {
 		$row = $this->Berita_model->get_by_judul_seo_berita ( $judul_seo );
