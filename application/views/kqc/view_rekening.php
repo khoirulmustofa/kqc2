@@ -3,7 +3,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>REKENING</h1>
+				<h1>Rekening</h1>
 				<p>
 					<a href="<?php echo base_url()?>">Beranda </a>/ <?php echo ucwords($title)?>
 				</p>

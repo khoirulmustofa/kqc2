@@ -28,7 +28,10 @@ function getSearchTermToBold($text, $words)
     $re = '~(' . implode('|', $m[0]) . ')~i';
     return preg_replace($re, '<b style="color:red">$0</b>', $text);
 }
-
+function tampil_rupiah($duit){
+	$hasil_rupiah = "Rp " . number_format($duit,0,'.','.');
+	return $hasil_rupiah;
+}
 function tgl_indo($tgl)
 {
     $tanggal = substr($tgl, 8, 2);
