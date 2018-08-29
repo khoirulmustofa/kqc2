@@ -6,6 +6,9 @@
 			alt="static header image">
 	</div>
 	<div class="header-carousel-active">
+	<?php 
+	$carousel = $this->Carousel_model->get_all_carousel();
+	?>
 		<div class="header-carousel-wrapper header-carousel-bg">
 			<div class="single-header-carousel ">
 				<div class="container">
@@ -40,13 +43,37 @@
 				</div>
 			</div>
 		</div>
+		<div class="header-carousel-wrapper header-carousel-bg">
+			<div class="single-header-carousel ">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-8">
+							<h1>
+								Latihan <strong>Belajar</strong>
+							</h1>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+								do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<a href="#" class="boxed-btn">Read More<i
+								class="icofont icofont-curved-double-right"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </header>
 <!--header section end-->
 <!--event countdown start-->
+<?php
+
+$hasil = $this->Kegiatan_model->cek_tanggal_acara ();
+
+if ($hasil->num_rows () != 0) {
+?>
 <div class="event-counter">
 	<div class="container">
 	<?php
+	
 	$kegiatan_data = $this->Kegiatan_model->get_one_data_kegiatan ( 1, 0 );
 	foreach ( $kegiatan_data->result () as $kegiatan ) {
 		?>
@@ -113,6 +140,7 @@
 	?>
 	</div>
 </div>
+<?php }?>
 <!--event countdown end-->
 <!-- latest event start-->
 <section class="latest-event">

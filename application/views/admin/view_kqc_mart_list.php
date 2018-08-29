@@ -64,10 +64,11 @@
 					<thead>
 						<tr>
 							<th>No</th>
-							<th>Nama Kqc Mart</th>
-							<th>Harga Kqc Mart</th>
-							<th>Jumlah Kqc Mart</th>
-							<th>Gambar Kqc Mart</th>
+							<th>Kode Produk</th>
+							<th>Nama</th>
+							<th>Harga</th>
+							<th>Jumlah</th>
+							<th>Gambar</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -77,6 +78,7 @@
 									?>
                 <tr>
 							<td width="80px"><?php echo ++$start ?></td>
+							<td><?php echo $kqc_mart->kode_kqc_mart ?></td>
 							<td><?php echo $kqc_mart->nama_kqc_mart ?></td>
 							<td><?php echo $kqc_mart->harga_kqc_mart ?></td>
 							<td><?php echo $kqc_mart->jumlah_kqc_mart ?></td>

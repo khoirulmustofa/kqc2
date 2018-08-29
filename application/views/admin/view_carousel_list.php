@@ -61,37 +61,37 @@
 			</div>
 			<div class="box-body table-responsive no-padding">
 				<table class="table table-bordered table-striped table-hover">
-							<thead>
-								<tr>
-									<th>No</th>
-									<th>Nama Carousel</th>
-									<th>Gambar Carousel</th>
-									<th>Active Carousel</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-							<?php
-							foreach ( $carousel_data as $carousel ) {
-								?>
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>Nama Carousel</th>
+							<th>Gambar Carousel</th>
+
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+								<?php
+								foreach ( $carousel_data as $carousel ) {
+									?>
                 <tr>
-									<td width="80px"><?php echo ++$start ?></td>
-									<td><?php echo $carousel->nama_carousel ?></td>
-									<td><?php echo $carousel->gambar_carousel ?></td>
-									<td><?php echo $carousel->active_carousel ?></td>
-									<td style="text-align: center" width="200px">
+							<td width="80px"><?php echo ++$start ?></td>
+							<td><?php echo $carousel->nama_carousel ?></td>
+							<td><?php echo $carousel->gambar_carousel ?></td>
+
+							<td style="text-align: center">
 				<?php
-								echo anchor ( site_url ( 'admin/carousel_update/' . $carousel->id_carousel ), 'Update' );
-								echo ' | ';
-								echo anchor ( site_url ( 'admin/carousel_delete/' . $carousel->id_carousel ), 'Delete', 'onclick="javasciprt: return confirm(\'Are You Sure ?\')"' );
-								?>
+									echo anchor ( site_url ( 'admin/carousel_update/' . $carousel->id_carousel ), 'Update' );
+									echo ' | ';
+									echo anchor ( site_url ( 'admin/carousel_delete/' . $carousel->id_carousel ), 'Delete', 'onclick="javasciprt: return confirm(\'Are You Sure ?\')"' );
+									?>
 			</td>
-								</tr>
+						</tr>
                 <?php
-							}
-							?>
+								}
+								?>
 							</tbody>
-						</table>
+				</table>
 			</div>
 			<!-- /.box-body -->
 			<div class="box-footer">

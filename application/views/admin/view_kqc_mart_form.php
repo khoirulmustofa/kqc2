@@ -33,6 +33,12 @@
 			);
 			echo form_open_multipart ( $action, $attributes )?>				
 				<div class="box-body">
+				<div class="form-group">
+						<label for="varchar">Kode Produk Kqc Mart <?php echo form_error('kode_kqc_mart') ?></label>
+						<input type="text" class="form-control" name="kode_kqc_mart"
+							id="kode_kqc_mart" placeholder="Kode Produk Kqc Mart" readonly="readonly"
+							value="<?php echo $kode_kqc_mart; ?>" />
+					</div>
 					<div class="form-group">
 						<label for="varchar">Nama Kqc Mart <?php echo form_error('nama_kqc_mart') ?></label>
 						<input type="text" class="form-control" name="nama_kqc_mart"

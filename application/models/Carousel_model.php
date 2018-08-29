@@ -4,14 +4,14 @@ if (! defined ( 'BASEPATH' ))
 class Carousel_model extends CI_Model {
 	public $table = 'carousel';
 	public $id = 'id_carousel';
-	public $order = 'ASC';
+	public $order = 'DESC';
 	function __construct() {
 		parent::__construct ();
 	}
 	
 	// get all
 	function get_all_carousel() {
-		$this->db->order_by ( 'active_carousel', $this->order );
+		$this->db->order_by ( $this->id, $this->order );
 		return $this->db->get ( $this->table )->result ();
 	}
 	
@@ -26,6 +26,7 @@ class Carousel_model extends CI_Model {
 		$this->db->like ( 'id_carousel', $q );
 		$this->db->or_like ( 'nama_carousel', $q );
 		$this->db->or_like ( 'gambar_carousel', $q );
+		$this->db->or_like ( 'keterangan_carousel', $q );
 		$this->db->from ( $this->table );
 		return $this->db->count_all_results ();
 	}
@@ -36,6 +37,7 @@ class Carousel_model extends CI_Model {
 		$this->db->like ( 'id_carousel', $q );
 		$this->db->or_like ( 'nama_carousel', $q );
 		$this->db->or_like ( 'gambar_carousel', $q );
+		$this->db->or_like ( 'keterangan_carousel', $q );
 		$this->db->limit ( $limit, $start );
 		return $this->db->get ( $this->table )->result ();
 	}

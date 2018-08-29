@@ -8,7 +8,13 @@ class Kegiatan_model extends CI_Model {
 	function __construct() {
 		parent::__construct ();
 	}
-	
+	// untuk cek tanggal kegiatan sudah lewat atau belum
+	function cek_tanggal_acara() {
+		$this->db->where ( 'waktu_kegiatan > NOW()' );
+		$result = $this->db->get ( $this->table );
+		//$result = $this->db->last_query ();
+		return $result;
+	}
 	// get_one_data_kegiatan
 	function get_one_data_kegiatan($limit, $start) {
 		$this->db->order_by ( 'id_kegiatan', 'DESC' );

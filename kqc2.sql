@@ -71,13 +71,12 @@ CREATE TABLE `carousel` (
   `nama_carousel` varchar(200) NOT NULL,
   `gambar_carousel` varchar(250) DEFAULT NULL,
   `keterangan_carousel` text NOT NULL,
-  `active_carousel` enum('active','') DEFAULT NULL,
   PRIMARY KEY (`id_carousel`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `carousel` */
 
-insert  into `carousel`(`id_carousel`,`nama_carousel`,`gambar_carousel`,`keterangan_carousel`,`active_carousel`) values (1,'Slide 1','Ucapan_idul_fitri.JPG','<h2><a href=\"https://stackoverflow.com/questions/4554758/how-to-read-if-a-checkbox-is-checked-in-php\">Codeigniter</a></h2>\r\n','active'),(2,'Slide 2','Sedang_mengaji.JPG','',''),(3,'Slide 3','Sedekah_online.JPG','',''),(5,'Slide 4','Umroh.JPG','<h2><a href=\"https://stackoverflow.com/questions/4554758/how-to-read-if-a-checkbox-is-checked-in-php\">Codeigniter</a></h2>\r\n',''),(6,'Slide 5','Pray_for_palestine.JPG','<p>Nomor       : 345/IE-WAWANCARA/IV/2016<br>\r\nLampiran   : -<br>\r\nPerihal       : User<br>\r\n<br>\r\nKepada Yth,<br>\r\nKampung Qur&#39;am Cikarang<br>\r\nDi Tempat<br>\r\n<br>\r\nBerkenaan dengan Surat Pemberitahuan ini, dengan ini kami memberi informasi :</p>\r\n\r\n<p>Nama    : ________</p>\r\n\r\n<p>No HP   : _________</p>\r\n\r\n<p>E-mail   : _________</p>\r\n\r\n<p>Perihal  : _________</p>\r\n\r\n<p>Pesan   : _________</p>\r\n\r\n<p><br>\r\nAtas perhatian serta kerjasama Saudara/I, kami ucapkan terima kasih.<br>\r\n<br>\r\nBekasi, 5 November 2016<br>\r\n<br>\r\nHormat kami,<br>\r\n<br>\r\n<br>\r\nSystem Application</p>\r\n','');
+insert  into `carousel`(`id_carousel`,`nama_carousel`,`gambar_carousel`,`keterangan_carousel`) values (7,'Slide 2','b38d50cd07647869901c18132664b736.jpg','<h1>Slide 2</h1>\r\n\r\n<p>Codeigniter CRUD Generator is a simple tool to auto generate model, controller and view from your table. This tool will boost your writing code</p>'),(8,'Slide 1','48fa4ce49cfcaa7f31992f2fdbdfe0df.jpg','<h1>Slide 1</h1>\r\n\r\n<p>should do it. Note the space between the field name and the operator; otherwise you will end up getting Error 1064.</p>\r\n\r\n<p> </p>');
 
 /*Table structure for table `galeri_foto` */
 
@@ -104,7 +103,7 @@ CREATE TABLE `galeri_video` (
   `nama_galeri_video` varchar(200) DEFAULT NULL,
   `link_galeri_video` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id_galeri_video`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `galeri_video` */
 
@@ -198,7 +197,7 @@ CREATE TABLE `kegiatan` (
 
 /*Data for the table `kegiatan` */
 
-insert  into `kegiatan`(`id_kegiatan`,`name_kegiatan`,`tempat_kegiatan`,`waktu_kegiatan`) values (1,'Ngaji Bersama','Markas KQC','2018-08-31 19:00:00');
+insert  into `kegiatan`(`id_kegiatan`,`name_kegiatan`,`tempat_kegiatan`,`waktu_kegiatan`) values (1,'Ngaji Bersama','Markas KQC','2018-09-02 19:00:00');
 
 /*Table structure for table `kqc_mart` */
 
@@ -206,16 +205,18 @@ DROP TABLE IF EXISTS `kqc_mart`;
 
 CREATE TABLE `kqc_mart` (
   `id_kqc_mart` int(11) NOT NULL AUTO_INCREMENT,
+  `kode_kqc_mart` varchar(10) NOT NULL,
   `nama_kqc_mart` varchar(250) DEFAULT NULL,
   `harga_kqc_mart` int(11) DEFAULT NULL,
   `jumlah_kqc_mart` int(11) DEFAULT NULL,
   `gambar_kqc_mart` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id_kqc_mart`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id_kqc_mart`),
+  UNIQUE KEY `kode_produk_kqc` (`kode_kqc_mart`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kqc_mart` */
 
-insert  into `kqc_mart`(`id_kqc_mart`,`nama_kqc_mart`,`harga_kqc_mart`,`jumlah_kqc_mart`,`gambar_kqc_mart`) values (1,'Al Quran Pocket',7000,50,'4fce3be07ba8cc97907aba2ab1b757e4.jpg'),(2,'Al Quran Pocket test ( gjshf )',5000,35,'3590263744ce185ec722ae80ba7af153.jpg'),(4,'Al Quran Pocket',7000,50,'7da197616a6dba8ed744653057b1f9b0.jpg'),(5,'Al Quran Pocket test',600,50,'b2a211ae5b2f322b4de27c091f480e9f.jpg'),(6,'Al Quran Pocket',600,25,'4496770f17e536ba6f0e63df6d93b9fa.jpg'),(7,'Al Quran Pocket',5000,546,'eee87bb6b5e5789363ceeb555d82d23a.jpg');
+insert  into `kqc_mart`(`id_kqc_mart`,`kode_kqc_mart`,`nama_kqc_mart`,`harga_kqc_mart`,`jumlah_kqc_mart`,`gambar_kqc_mart`) values (1,'KQC-0001','Al Quran Pocket',7000,50,'4fce3be07ba8cc97907aba2ab1b757e4.jpg'),(2,'KQC-0002','Al Quran Pocket test ( gjshf )',5000,35,'3590263744ce185ec722ae80ba7af153.jpg'),(4,'KQC-0003','Al Quran Pocket',7000,50,'7da197616a6dba8ed744653057b1f9b0.jpg'),(5,'KQC-0004','Al Quran Pocket test',600,50,'b2a211ae5b2f322b4de27c091f480e9f.jpg'),(6,'KQC-0005','Al Quran Pocket',600,25,'4496770f17e536ba6f0e63df6d93b9fa.jpg'),(7,'KQC-0006','Al Quran Pocket',5000,546,'eee87bb6b5e5789363ceeb555d82d23a.jpg'),(8,'KQC-0007','Al Quran Pocket test',7000,5,'9cecd2b2d35339f84bcf3138cf27a899.jpg'),(9,'KQC-0008','Al Quran Pocket',7000,25,'4e3b0ca58fc1525629d79e88a0446387.jpg'),(10,'KQC-0009','Al Quran Pocket test1',600,44,'81e4641f88246c9a13060d5d1c30b0e1.jpg'),(11,'KQC-0010','aerwe',5000,35,'62ea612c5e424144c6e600c13b24dd98.jpg');
 
 /*Table structure for table `login_attempts` */
 
@@ -241,11 +242,11 @@ CREATE TABLE `menu_groups` (
   `menu_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `menu_groups_menus` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 
 /*Data for the table `menu_groups` */
 
-insert  into `menu_groups`(`id`,`group_id`,`menu_id`) values (6,2,6),(13,3,4),(14,3,5),(15,3,6),(22,1,1),(23,1,2),(24,1,3),(25,1,4),(26,1,5),(27,1,6),(28,1,7),(29,1,8),(30,1,9),(31,1,10),(32,1,11),(33,1,12),(34,1,13),(35,1,14);
+insert  into `menu_groups`(`id`,`group_id`,`menu_id`) values (6,2,6),(13,3,4),(14,3,5),(15,3,6),(22,1,1),(23,1,2),(24,1,3),(25,1,4),(26,1,5),(27,1,6),(28,1,7),(29,1,8),(30,1,9),(31,1,10),(32,1,11),(33,1,12),(34,1,13),(35,1,14),(36,1,15);
 
 /*Table structure for table `menus` */
 
@@ -258,11 +259,11 @@ CREATE TABLE `menus` (
   `icon_menus` varchar(100) NOT NULL,
   `is_main_menu` int(11) NOT NULL,
   PRIMARY KEY (`id_menus`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 /*Data for the table `menus` */
 
-insert  into `menus`(`id_menus`,`judul_menus`,`link_menus`,`icon_menus`,`is_main_menu`) values (1,'Berita','admin/berita','fa fa-home',0),(2,'Administrator','#','fa fa-user-secret',0),(3,'User','admin/users','fa fa-users',2),(4,'Artikel','admin/artikel','fa fa-tree',0),(5,'Groups','admin/groups','fa fa-home',2),(6,'Menu','admin/menus','fa fa-home',2),(7,'Tentang Kami','admin/tentang_kami','fa fa-home',0),(8,'Rekening','admin/rekening','fa fa-home',0),(9,'Pendidikan Dakwah','admin/pendidikan_dakwah','fa fa-home',0),(10,'Galeri Foto','admin/galeri_foto','fa fa-home',0),(11,'Galeri Video','admin/galeri_video','fa fa-home',0),(12,'Carousel','admin/carousel','fa fa-home',0),(13,'Kata Mereka','admin/kata_mereka','fa fa-home',0),(14,'KQC Mart','admin/kqc_mart','fa fa-home',0);
+insert  into `menus`(`id_menus`,`judul_menus`,`link_menus`,`icon_menus`,`is_main_menu`) values (1,'Berita','admin/berita','fa fa-home',0),(2,'Administrator','#','fa fa-user-secret',0),(3,'User','admin/users','fa fa-users',2),(4,'Artikel','admin/artikel','fa fa-tree',0),(5,'Groups','admin/groups','fa fa-home',2),(6,'Menu','admin/menus','fa fa-home',2),(7,'Tentang Kami','admin/tentang_kami','fa fa-home',0),(8,'Rekening','admin/rekening','fa fa-home',0),(9,'Pendidikan Dakwah','admin/pendidikan_dakwah','fa fa-home',0),(10,'Galeri Foto','admin/galeri_foto','fa fa-home',0),(11,'Galeri Video','admin/galeri_video','fa fa-home',0),(12,'Carousel','admin/carousel','fa fa-home',0),(13,'Kata Mereka','admin/kata_mereka','fa fa-home',0),(14,'KQC Mart','admin/kqc_mart','fa fa-home',0),(15,'Carousel','admin/carousel','fa fa-home',0),(16,'','','',0);
 
 /*Table structure for table `pendidikan_dakwah` */
 
@@ -289,7 +290,7 @@ CREATE TABLE `rekening` (
   `nama_bank` varchar(200) DEFAULT NULL,
   `no_rekening` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_rekening`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `rekening` */
 
@@ -350,7 +351,7 @@ CREATE TABLE `tentang_kami` (
   `isi_tentang_kami` text,
   `gambar_tentang_kami` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id_tentang_kami`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tentang_kami` */
 
@@ -383,7 +384,7 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`ip_address`,`username`,`password`,`salt`,`email`,`activation_code`,`forgotten_password_code`,`forgotten_password_time`,`remember_code`,`created_on`,`last_login`,`active`,`first_name`,`last_name`,`company`,`phone`) values (1,'127.0.0.1','Administrator','$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36','','admin@admin.com','',NULL,NULL,'3TD4NqwmC1YF0B1mJC.aSe',1268889823,1535461461,1,'Administrator','sfsdg','Kampung Qur\'an Cikarang','34563'),(2,'::1','khoirl@gmail.com','$2y$08$nLwC4y6v.4DMmgDU9EaqkuJSocmTkPQTNbWDLmNuNgfXtBjY1tYWW',NULL,'khoirl@gmail.com',NULL,NULL,NULL,NULL,1532329863,NULL,1,'khoirul','khoirul','khoirul','123123123'),(4,'::1','juhandist@gmail.com','$2y$08$KNKcadjCrenenaHIYzeTo.4s00jukeVvKh2My7K6XowZL/Qh0txVG',NULL,'juhandist@gmail.com',NULL,NULL,NULL,NULL,1533525012,1533810301,1,'aaaaaaaaaaaaaaaa','aaaaaaaaaaaaaaaa','Kampung Qur\'an Cikarang','1111111111111111111'),(5,'::1','Usaha','$2y$08$oFiYEgw1qocuGWRVHpysX.F3KCQ/L1.BYrlG/d8WqU/hGlqmBB8Wi',NULL,'ee@gg.mm',NULL,NULL,NULL,NULL,1533819392,NULL,1,'usaha','usaha','Kampung Qur\'an Cikarang','3601');
+insert  into `users`(`id`,`ip_address`,`username`,`password`,`salt`,`email`,`activation_code`,`forgotten_password_code`,`forgotten_password_time`,`remember_code`,`created_on`,`last_login`,`active`,`first_name`,`last_name`,`company`,`phone`) values (1,'127.0.0.1','Administrator','$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36','','admin@admin.com','',NULL,NULL,'3TD4NqwmC1YF0B1mJC.aSe',1268889823,1535547253,1,'Administrator','sfsdg','Kampung Qur\'an Cikarang','34563'),(2,'::1','khoirl@gmail.com','$2y$08$nLwC4y6v.4DMmgDU9EaqkuJSocmTkPQTNbWDLmNuNgfXtBjY1tYWW',NULL,'khoirl@gmail.com',NULL,NULL,NULL,NULL,1532329863,NULL,1,'khoirul','khoirul','khoirul','123123123'),(4,'::1','juhandist@gmail.com','$2y$08$KNKcadjCrenenaHIYzeTo.4s00jukeVvKh2My7K6XowZL/Qh0txVG',NULL,'juhandist@gmail.com',NULL,NULL,NULL,NULL,1533525012,1533810301,1,'aaaaaaaaaaaaaaaa','aaaaaaaaaaaaaaaa','Kampung Qur\'an Cikarang','1111111111111111111'),(5,'::1','Usaha','$2y$08$oFiYEgw1qocuGWRVHpysX.F3KCQ/L1.BYrlG/d8WqU/hGlqmBB8Wi',NULL,'ee@gg.mm',NULL,NULL,NULL,NULL,1533819392,NULL,1,'usaha','usaha','Kampung Qur\'an Cikarang','3601');
 
 /*Table structure for table `users_groups` */
 

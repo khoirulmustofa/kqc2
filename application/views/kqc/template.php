@@ -211,7 +211,7 @@
 								<p>
 									<b>Head Office</b><br> Jl. Cipaganti Raya No.27, Jatireja,
 									Cikarang Tim., Bekasi, Jawa Barat 17530 <br> No HP / WA : <br>0812
-									- 8454 - 7175<br> eMail <br>layanan@kampungqurancikarang.com
+									- 8454 - 7175<br> E-Mail : <br>layanan@kampungqurancikarang.com
 								</p>
 							</div>
 						</div>

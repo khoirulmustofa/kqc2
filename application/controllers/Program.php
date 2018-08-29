@@ -51,9 +51,13 @@ class Program extends CI_Controller {
 		
 		$config ['per_page'] = 6;
 		$config ['query_string_segment'] = 'start';
+		$config ['full_tag_open'] = '<div><ul class ="paginator">';
+		$config ['next_link'] = '<i class="icofont icofont-long-arrow-right"></i>';
+		$config ['prev_link'] = '<i class="icofont icofont-long-arrow-left"></i>';
 		$config ['page_query_string'] = TRUE;
 		$config ['total_rows'] = $this->Kqc_mart_model->total_rows_kqc_mart ( $q );
 		$kqc_mart = $this->Kqc_mart_model->get_limit_data_kqc_mart ( $config ['per_page'], $start, $q );
+		$kqc_mart_produk_baru = $this->Kqc_mart_model->get_limit_data_kqc_mart_Produk_baru ( 10 );
 		
 		$this->load->library ( 'pagination' );
 		$this->pagination->initialize ( $config );
@@ -62,6 +66,7 @@ class Program extends CI_Controller {
 				'button' => 'List',
 				'q' => $q,
 				'kqc_mart_data' => $kqc_mart,
+				'kqc_mart_produk_baru_data' =>$kqc_mart_produk_baru,
 				'pagination' => $this->pagination->create_links (),
 				'total_rows' => $config ['total_rows'],
 				'start' => $start,

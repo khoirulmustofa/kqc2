@@ -1554,21 +1554,23 @@ class Admin extends CI_Controller {
 	// end rekening
 	
 	// carousel
-	// belum di kerjakan
 	public function carousel() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$q = urldecode ( $this->input->get ( 'q', TRUE ) );
 		$start = intval ( $this->input->get ( 'start' ) );
 		
 		if ($q != '') {
-			$config ['base_url'] = base_url () . 'carousel/?q=' . urlencode ( $q );
-			$config ['first_url'] = base_url () . 'carousel/?q=' . urlencode ( $q );
+			$config ['base_url'] = base_url () . 'admin/carousel/?q=' . urlencode ( $q );
+			$config ['first_url'] = base_url () . 'admin/carousel/?q=' . urlencode ( $q );
 		} else {
-			$config ['base_url'] = base_url () . 'carousel/';
-			$config ['first_url'] = base_url () . 'carousel/';
+			$config ['base_url'] = base_url () . 'admin/carousel/';
+			$config ['first_url'] = base_url () . 'admin/carousel/';
 		}
 		
 		$config ['per_page'] = 10;
-		$config ['query_string_segment'] = 'start';
 		$config ['page_query_string'] = TRUE;
 		$config ['total_rows'] = $this->Carousel_model->total_rows_carousel ( $q );
 		$carousel = $this->Carousel_model->get_limit_data_carousel ( $config ['per_page'], $start, $q );
@@ -1589,27 +1591,32 @@ class Admin extends CI_Controller {
 		$this->template->load ( 'admin/template', 'admin/view_carousel_list', $data );
 	}
 	public function carousel_create() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$data = array (
 				'button' => 'Create',
 				'action' => site_url ( 'admin/carousel_create_action' ),
 				'id_carousel' => set_value ( 'id_carousel' ),
 				'nama_carousel' => set_value ( 'nama_carousel' ),
-				'gambar_carousel' => set_value ( 'gambar_carousel' ),
+				'gambar_carousel_1' => set_value ( 'gambar_carousel' ),
 				'keterangan_carousel' => set_value ( 'keterangan_carousel' ),
-				'active_carousel' => set_value ( 'active_carousel' ),
-				'gambar_carousel_1' => set_value ( 'gambar_carousel_1' ),
 				'page' => 'carousel_form',
 				'title' => 'Carousel' 
 		);
 		$this->template->load ( 'admin/template', 'admin/view_carousel_form', $data );
 	}
 	public function carousel_create_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->carousel_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
 			$this->carousel_create ();
 		} else {
-			
 			$config ['upload_path'] = 'public/carousel/'; // path folder
 			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG'; // type yang dapat diakses bisa anda sesuaikan
 			$config ['encrypt_name'] = TRUE; // Enkripsi nama yang terupload
@@ -1625,33 +1632,35 @@ class Admin extends CI_Controller {
 					$config ['create_thumb'] = FALSE;
 					$config ['maintain_ratio'] = FALSE;
 					$config ['quality'] = '50%';
-					$config ['width'] = 600;
-					$config ['height'] = 400;
+					$config ['width'] = 1920;
+					$config ['height'] = 780;
 					$config ['new_image'] = 'public/carousel/' . $gbr ['file_name'];
 					$this->load->library ( 'image_lib', $config );
 					$this->image_lib->resize ();
 					
 					$data = array (
-							'nama_carousel' => ucwords ( $this->input->post ( 'nama_carousel', TRUE ) ),
-							'keterangan_carousel' => $this->input->post ( 'keterangan_carousel', TRUE ),
-							'active_carousel' => $this->input->post ( 'active_carousel', TRUE ) == 'active' ? 'active' : '',
-							'gambar_carousel' => $hasil ['file_name'] 
+							'nama_carousel' => $this->input->post ( 'nama_carousel', TRUE ),
+							'gambar_carousel' => $gbr ['file_name'],
+							'keterangan_carousel' => $this->input->post ( 'keterangan_carousel', TRUE ) 
 					);
 				}
 			} else {
 				$data = array (
-						'nama_carousel' => ucwords ( $this->input->post ( 'nama_carousel', TRUE ) ),
-						'keterangan_carousel' => $this->input->post ( 'keterangan_carousel', TRUE ),
-						'active_carousel' => $this->input->post ( 'active_carousel', TRUE ) == 'active' ? 'active' : '' 
+						'nama_carousel' => $this->input->post ( 'nama_carousel', TRUE ),
+						'keterangan_carousel' => $this->input->post ( 'keterangan_carousel', TRUE ) 
 				);
 			}
 			
 			$this->Carousel_model->insert_carousel ( $data );
-			$this->session->set_flashdata ( 'message', 'Create Record Success' );
+			$this->session->set_flashdata ( 'message', 'Create Record Carousel Success' );
 			redirect ( site_url ( 'admin/carousel' ) );
 		}
 	}
 	public function carousel_update($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Carousel_model->get_by_id_carousel ( $id );
 		
 		if ($row) {
@@ -1660,12 +1669,12 @@ class Admin extends CI_Controller {
 					'action' => site_url ( 'admin/carousel_update_action' ),
 					'id_carousel' => set_value ( 'id_carousel', $row->id_carousel ),
 					'nama_carousel' => set_value ( 'nama_carousel', $row->nama_carousel ),
-					'keterangan_carousel' => set_value ( 'keterangan_carousel', $row->keterangan_carousel ),
-					'active_carousel' => set_value ( 'active_carousel', $row->active_carousel ),
 					'gambar_carousel_1' => set_value ( 'gambar_carousel', $row->gambar_carousel ),
+					'keterangan_carousel' => set_value ( 'keterangan_carousel', $row->keterangan_carousel ),
 					'page' => 'carousel_form',
 					'title' => 'Carousel' 
 			);
+			// var_dump($data);
 			$this->template->load ( 'admin/template', 'admin/view_carousel_form', $data );
 		} else {
 			$this->session->set_flashdata ( 'message', 'Record Not Found' );
@@ -1673,58 +1682,81 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function carousel_update_action() {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$this->carousel_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
 			$this->carousel_update ( $this->input->post ( 'id_carousel', TRUE ) );
 		} else {
-			$config ['upload_path'] = 'public/carousel/';
-			$config ['allowed_types'] = 'gif|jpg|png|JPG|JPEG';
-			$config ['max_size'] = '3000'; // kb
-			$this->load->library ( 'upload', $config );
-			$this->upload->do_upload ( 'gambar_carousel' );
-			$hasil = $this->upload->data ();
+			$config ['upload_path'] = 'public/carousel/'; // path folder
+			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG'; // type yang dapat diakses bisa anda sesuaikan
+			$config ['encrypt_name'] = TRUE; // Enkripsi nama yang terupload
+			$this->upload->initialize ( $config );
 			
-			if ($hasil ['file_name'] == '') {
-				$data = array (
-						'nama_carousel' => $this->input->post ( 'nama_carousel', TRUE ),
-						'keterangan_carousel' => $this->input->post ( 'keterangan_carousel', TRUE ),
-						'active_carousel' => $this->input->post ( 'active_carousel', TRUE ) == 'active' ? 'active' : '' 
-				);
+			if (! empty ( $_FILES ['gambar_carousel'] ['name'] )) {
+				
+				if ($this->upload->do_upload ( 'gambar_carousel' )) {
+					$gbr = $this->upload->data ();
+					// Compress Image
+					$config ['image_library'] = 'gd2';
+					$config ['source_image'] = 'public/carousel/' . $gbr ['file_name'];
+					$config ['create_thumb'] = FALSE;
+					$config ['maintain_ratio'] = FALSE;
+					$config ['quality'] = '50%';
+					$config ['width'] = 1920;
+					$config ['height'] = 780;
+					$config ['new_image'] = 'public/carousel/' . $gbr ['file_name'];
+					$this->load->library ( 'image_lib', $config );
+					$this->image_lib->resize ();
+					
+					$data = array (
+							'nama_carousel' => $this->input->post ( 'nama_carousel', TRUE ),
+							'gambar_carousel' => $gbr ['file_name'],
+							'keterangan_carousel' => $this->input->post ( 'keterangan_carousel', TRUE ) 
+					);
+					$path_file = 'public/carousel/' . $this->input->post ( 'gambar_carousel_1', TRUE );
+					if (file_exists ( $path_file )) {
+						unlink ( $path_file );
+					}
+				}
 			} else {
 				$data = array (
 						'nama_carousel' => $this->input->post ( 'nama_carousel', TRUE ),
-						'keterangan_carousel' => $this->input->post ( 'keterangan_carousel', TRUE ),
-						'active_carousel' => $this->input->post ( 'active_carousel', TRUE ) == 'active' ? 'active' : '',
-						'gambar_carousel' => $hasil ['file_name'] 
+						'keterangan_carousel' => $this->input->post ( 'keterangan_carousel', TRUE ) 
 				);
-				$path_file = 'public/carousel/' . $this->input->post ( 'gambar_carousel_1', TRUE );
-				if (file_exists ( $path_file )) {
-					unlink ( $path_file );
-				}
 			}
 			
 			$this->Carousel_model->update_carousel ( $this->input->post ( 'id_carousel', TRUE ), $data );
-			$this->session->set_flashdata ( 'message', 'Update Record Success' );
+			$this->session->set_flashdata ( 'message', 'Update Record Carousel Success' );
 			redirect ( site_url ( 'admin/carousel' ) );
 		}
 	}
 	public function carousel_delete($id) {
+		if (! $this->ion_auth->logged_in ()) {
+			// redirect them to the login page
+			return redirect ( site_url ( 'admin/login' ) );
+		}
 		$row = $this->Carousel_model->get_by_id_carousel ( $id );
 		
 		if ($row) {
 			$this->Carousel_model->delete_carousel ( $id );
-			$this->session->set_flashdata ( 'message', 'Delete Record Success' );
+			$this->session->set_flashdata ( 'message', 'Delete Record Carousel Success' );
+			$path_file = 'public/carousel/' . $row->gambar_carousel;
+			if (file_exists ( $path_file )) {
+				unlink ( $path_file );
+			}
 			redirect ( site_url ( 'admin/carousel' ) );
 		} else {
-			$this->session->set_flashdata ( 'message', 'Record Not Found' );
+			$this->session->set_flashdata ( 'message', 'Record Carousel Not Found' );
 			redirect ( site_url ( 'admin/carousel' ) );
 		}
 	}
 	public function carousel_rules() {
 		$this->form_validation->set_rules ( 'nama_carousel', 'nama carousel', 'trim|required' );
-		$this->form_validation->set_rules ( 'gambar_carousel', 'gambar carousel' );
-		
+		$this->form_validation->set_rules ( 'keterangan_carousel', 'keterangan carousel', 'trim|required' );
 		$this->form_validation->set_rules ( 'id_carousel', 'id_carousel', 'trim' );
 		$this->form_validation->set_error_delimiters ( '<span class="text-danger">', '</span>' );
 	}
@@ -2707,7 +2739,7 @@ class Admin extends CI_Controller {
 		$config ['per_page'] = 10;
 		$config ['page_query_string'] = TRUE;
 		$config ['total_rows'] = $this->Kqc_mart_model->total_rows_kqc_mart ( $q );
-		$kqc_mart = $this->Kqc_mart_model->get_limit_data_kqc_mart ( $config ['per_page'], $start, $q );
+		$kqc_mart = $this->Kqc_mart_model->get_limit_data_kqc_mart_order_by_jumlah ( $config ['per_page'], $start, $q );
 		
 		$this->load->library ( 'pagination' );
 		$this->pagination->initialize ( $config );
@@ -2733,6 +2765,7 @@ class Admin extends CI_Controller {
 				'button' => 'Create',
 				'action' => site_url ( 'admin/kqc_mart_create_action' ),
 				'id_kqc_mart' => set_value ( 'id_kqc_mart' ),
+				'kode_kqc_mart' => $this->Kqc_mart_model->generate_kode_produk_kqc (),
 				'nama_kqc_mart' => set_value ( 'nama_kqc_mart' ),
 				'harga_kqc_mart' => set_value ( 'harga_kqc_mart' ),
 				'jumlah_kqc_mart' => set_value ( 'jumlah_kqc_mart' ),
@@ -2774,6 +2807,7 @@ class Admin extends CI_Controller {
 					$this->image_lib->resize ();
 					
 					$data = array (
+							'kode_kqc_mart' => $this->input->post ( 'kode_kqc_mart', TRUE ),
 							'nama_kqc_mart' => $this->input->post ( 'nama_kqc_mart', TRUE ),
 							'harga_kqc_mart' => $this->input->post ( 'harga_kqc_mart', TRUE ),
 							'jumlah_kqc_mart' => $this->input->post ( 'jumlah_kqc_mart', TRUE ),
@@ -2782,6 +2816,7 @@ class Admin extends CI_Controller {
 				}
 			} else {
 				$data = array (
+						'kode_kqc_mart' => $this->input->post ( 'kode_kqc_mart', TRUE ),
 						'nama_kqc_mart' => $this->input->post ( 'nama_kqc_mart', TRUE ),
 						'harga_kqc_mart' => $this->input->post ( 'harga_kqc_mart', TRUE ),
 						'jumlah_kqc_mart' => $this->input->post ( 'jumlah_kqc_mart', TRUE ) 
@@ -2851,6 +2886,7 @@ class Admin extends CI_Controller {
 					$this->image_lib->resize ();
 					
 					$data = array (
+							'kode_kqc_mart' => $this->input->post ( 'kode_kqc_mart', TRUE ),
 							'nama_kqc_mart' => $this->input->post ( 'nama_kqc_mart', TRUE ),
 							'harga_kqc_mart' => $this->input->post ( 'harga_kqc_mart', TRUE ),
 							'jumlah_kqc_mart' => $this->input->post ( 'jumlah_kqc_mart', TRUE ),
@@ -2863,13 +2899,14 @@ class Admin extends CI_Controller {
 				}
 			} else {
 				$data = array (
+						'kode_kqc_mart' => $this->input->post ( 'kode_kqc_mart', TRUE ),
 						'nama_kqc_mart' => $this->input->post ( 'nama_kqc_mart', TRUE ),
 						'harga_kqc_mart' => $this->input->post ( 'harga_kqc_mart', TRUE ),
 						'jumlah_kqc_mart' => $this->input->post ( 'jumlah_kqc_mart', TRUE ) 
 				);
 			}
 			
-			$this->Kqc_mart_model->update_kqc_mart ($this->input->post('id_kqc_mart', TRUE), $data );
+			$this->Kqc_mart_model->update_kqc_mart ( $this->input->post ( 'id_kqc_mart', TRUE ), $data );
 			$this->session->set_flashdata ( 'message', 'Update Record KQC Mart Success' );
 			redirect ( site_url ( 'admin/kqc_mart' ) );
 		}
