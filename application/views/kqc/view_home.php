@@ -7,18 +7,18 @@
 	</div>
 	<div class="header-carousel-active">
 	<?php 
-	$carousel = $this->Carousel_model->get_all_carousel();
+	$carousel_data = $this->Carousel_model->get_all_carousel();
+	$start=1;
+	foreach ($carousel_data as $carousel)
+	{
+		++$start;
 	?>
-		<div class="header-carousel-wrapper header-carousel-bg">
+		<div class="header-carousel-wrapper header-carousel-<?php echo $start % 2 == 0 ? 'bg' : 'bg-two'; ?>" style="background: url('<?php echo base_url('public/carousel/').$carousel->gambar_carousel?>');">
 			<div class="single-header-carousel ">
 				<div class="container">
 					<div class="row">
 						<div class="col-md-8">
-							<h1>
-								nothing is impossible with <strong>allah</strong>
-							</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-								do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<?php echo $carousel->keterangan_carousel ?>
 							<a href="#" class="boxed-btn">Read More<i
 								class="icofont icofont-curved-double-right"></i></a>
 						</div>
@@ -26,40 +26,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="header-carousel-wrapper header-carousel-bg-two">
-			<div class="single-header-carousel ">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-8">
-							<h1>
-								nothing is impossible with <strong>allah</strong>
-							</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-								do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							<a href="#" class="boxed-btn">Read More<i
-								class="icofont icofont-curved-double-right"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="header-carousel-wrapper header-carousel-bg">
-			<div class="single-header-carousel ">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-8">
-							<h1>
-								Latihan <strong>Belajar</strong>
-							</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-								do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							<a href="#" class="boxed-btn">Read More<i
-								class="icofont icofont-curved-double-right"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<?php } ?>
 	</div>
 </header>
 <!--header section end-->

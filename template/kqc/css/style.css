@@ -743,14 +743,14 @@ th {
     Header Section
 ===========================*/
 .header-carousel-bg {
-	background: url("../img/header-bg.jpg");
+	
 	background-color: #ddd;
 	background-position: center;
 	background-size: cover;
 }
 
 .header-carousel-bg-two {
-	background: url("../img/header-bg.jpg");
+	
 	background-color: #ddd;
 	background-position: center;
 	background-size: cover;

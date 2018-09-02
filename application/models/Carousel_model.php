@@ -11,7 +11,7 @@ class Carousel_model extends CI_Model {
 	
 	// get all
 	function get_all_carousel() {
-		$this->db->order_by ( $this->id, $this->order );
+		$this->db->order_by ( $this->id, 'ASC' );
 		return $this->db->get ( $this->table )->result ();
 	}
 	
