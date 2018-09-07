@@ -30,7 +30,7 @@ class Kqc_mart_model extends CI_Model {
 	// get_limit_data_kqc_mart_order_by_jumlah
 	function get_limit_data_kqc_mart_Produk_baru($limit) {
 		$this->db->order_by ( 'id_kqc_mart', 'DESC' );
-		$this->db->limit(10);
+		$this->db->limit($limit);
 		return $this->db->get ( $this->table )->result ();
 	}
 	

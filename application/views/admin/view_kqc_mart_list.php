@@ -59,35 +59,38 @@
 						
 						?>
 			</div>
+			
 			<div class="box-body table-responsive no-padding">
 				<table class="table table-bordered table-striped table-hover">
 					<thead>
 						<tr>
 							<th>No</th>
 							<th>Kode Produk</th>
-							<th>Nama</th>
+							<th>Nama Produk</th>
+							<th>Deskripsi</th>
 							<th>Harga</th>
-							<th>Jumlah</th>
 							<th>Gambar</th>
+							<th>Kategori</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
 								<?php
-								foreach ( $kqc_mart_data as $kqc_mart ) {
+								foreach ( $produk_kqc_data as $produk_kqc ) {
 									?>
                 <tr>
 							<td width="80px"><?php echo ++$start ?></td>
-							<td><?php echo $kqc_mart->kode_kqc_mart ?></td>
-							<td><?php echo $kqc_mart->nama_kqc_mart ?></td>
-							<td><?php echo $kqc_mart->harga_kqc_mart ?></td>
-							<td><?php echo $kqc_mart->jumlah_kqc_mart ?></td>
-							<td><?php echo $kqc_mart->gambar_kqc_mart ?></td>
+							<td><?php echo $produk_kqc->kode_produk_kqc ?></td>
+							<td><?php echo $produk_kqc->nama_produk_kqc ?></td>
+							<td><?php echo $produk_kqc->deskripsi_produk_kqc ?></td>
+							<td><?php echo $produk_kqc->harga_produk_kqc ?></td>
+							<td><?php echo $produk_kqc->gambar_produk_kqc ?></td>
+							<td><?php echo $produk_kqc->nama_kategori_produk ?></td>
 							<td style="text-align: center">
 				<?php
-									echo anchor ( site_url ( 'admin/kqc_mart_update/' . $kqc_mart->id_kqc_mart ), 'Update' );
+									echo anchor ( site_url ( 'admin/kqc_mart_update/' . $produk_kqc->id_produk_kqc ), 'Update' );
 									echo ' | ';
-									echo anchor ( site_url ( 'admin/kqc_mart_delete/' . $kqc_mart->id_kqc_mart ), 'Delete', 'onclick="javasciprt: return confirm(\'Are You Sure ?\')"' );
+									echo anchor ( site_url ( 'admin/kqc_mart_delete/' . $produk_kqc->id_produk_kqc ), 'Delete', 'onclick="javasciprt: return confirm(\'Are You Sure ?\')"' );
 									?>
 			</td>
 						</tr>

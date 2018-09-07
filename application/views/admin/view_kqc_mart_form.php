@@ -33,48 +33,53 @@
 			);
 			echo form_open_multipart ( $action, $attributes )?>				
 				<div class="box-body">
-				<div class="form-group">
-						<label for="varchar">Kode Produk Kqc Mart <?php echo form_error('kode_kqc_mart') ?></label>
-						<input type="text" class="form-control" name="kode_kqc_mart"
-							id="kode_kqc_mart" placeholder="Kode Produk Kqc Mart" readonly="readonly"
-							value="<?php echo $kode_kqc_mart; ?>" />
+					<div class="form-group">
+						<label for="varchar">Kode Produk Kqc <?php echo form_error('kode_produk_kqc') ?></label>
+						<input type="text" class="form-control" name="kode_produk_kqc"
+							id="kode_produk_kqc" placeholder="Kode Produk Kqc"
+							readonly="readonly" value="<?php echo $kode_produk_kqc; ?>" />
 					</div>
 					<div class="form-group">
-						<label for="varchar">Nama Kqc Mart <?php echo form_error('nama_kqc_mart') ?></label>
-						<input type="text" class="form-control" name="nama_kqc_mart"
-							id="nama_kqc_mart" placeholder="Nama Kqc Mart"
-							value="<?php echo $nama_kqc_mart; ?>" />
+						<label for="varchar">Nama Produk Kqc <?php echo form_error('nama_produk_kqc') ?></label>
+						<input type="text" class="form-control" name="nama_produk_kqc"
+							id="nama_produk_kqc" placeholder="Nama Produk Kqc"
+							value="<?php echo $nama_produk_kqc; ?>" />
 					</div>
 					<div class="form-group">
-						<label for="int">Harga Kqc Mart <?php echo form_error('harga_kqc_mart') ?></label>
-						<input type="text" class="form-control" name="harga_kqc_mart"
-							id="harga_kqc_mart" placeholder="Harga Kqc Mart"
-							value="<?php echo $harga_kqc_mart; ?>" />
+						<label for="deskripsi_produk_kqc">Deskripsi Produk Kqc <?php echo form_error('deskripsi_produk_kqc') ?></label>
+						<textarea class="form-control" rows="3"
+							name="deskripsi_produk_kqc" id="deskripsi_produk_kqc"
+							placeholder="Deskripsi Produk Kqc"><?php echo $deskripsi_produk_kqc; ?></textarea>
 					</div>
 					<div class="form-group">
-						<label for="int">Jumlah Kqc Mart <?php echo form_error('jumlah_kqc_mart') ?></label>
-						<input type="text" class="form-control" name="jumlah_kqc_mart"
-							id="jumlah_kqc_mart" placeholder="Jumlah Kqc Mart"
-							value="<?php echo $jumlah_kqc_mart; ?>" />
+						<label for="int">Harga Produk Kqc <?php echo form_error('harga_produk_kqc') ?></label>
+						<input type="text" class="form-control" name="harga_produk_kqc"
+							id="harga_produk_kqc" placeholder="Harga Produk Kqc"
+							value="<?php echo $harga_produk_kqc; ?>" />
 					</div>
 					<div class="form-group">
-						<label for="varchar">Gambar Galeri Foto <?php echo form_error('gambar_kqc_mart') ?></label>
+						<label for="varchar">Gambar Produk Kqc <?php echo form_error('gambar_produk_kqc') ?></label>
 
-						<input type="file" id="gambar_kqc_mart" name="gambar_kqc_mart">
+						<input type="file" id="gambar_produk_kqc" name="gambar_produk_kqc">
 								<?php
 								
-								if ($gambar_kqc_mart_1 != '') {
+								if ($gambar_produk_kqc_1 != '') {
 									?>
 								<a class="label label-success"
-							href="<?php echo base_url('public/kqc_mart/').$gambar_kqc_mart_1?>">Gambar yang di pilih  <?php echo $gambar_kqc_mart_1 ?></a>	
+							href="<?php echo base_url('public/galeri_foto/').$gambar_produk_kqc_1?>">Gambar yang di pilih  <?php echo $gambar_produk_kqc_1 ?></a>	
 								<?php } ?>
 						</div>
+					<div class="form-group">
+						<label for="int">Id Kategori Produk <?php echo form_error('id_kategori_produk') ?></label>
+							<?php echo cmb_dinamis('id_kategori_produk', 'kategori_produk', 'nama_kategori_produk', 'id_kategori_produk', $id_kategori_produk,'Pilih Kategory'); ?>
+					</div>
 				</div>
 				<!-- /.box-body -->
 				<div class="box-footer">
-					<input type="hidden" name="gambar_kqc_mart_1"
-						value="<?php echo $gambar_kqc_mart_1; ?>" /> <input type="hidden"
-						name="id_kqc_mart" value="<?php echo $id_kqc_mart; ?>" />
+					<input type="hidden" name="gambar_produk_kqc_1"
+						value="<?php echo $gambar_produk_kqc_1; ?>" /> <input
+						type="hidden" name="id_produk_kqc"
+						value="<?php echo $id_produk_kqc; ?>" />
 					<button type="submit" class="btn btn-primary"><?php echo $button ?></button>
 					<a href="<?php echo site_url('admin/kqc_mart') ?>"
 						class="btn btn-default">Cancel</a>

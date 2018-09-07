@@ -167,5 +167,5 @@ $autoload ['model'] = array (
 		'Menus_model',
 		'Kata_mereka_model',
 		'Kegiatan_model',
-		'Kqc_mart_model' 
+		'Produk_kqc_model' 
 );

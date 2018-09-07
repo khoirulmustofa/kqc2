@@ -1779,7 +1779,7 @@ class Admin extends CI_Controller {
 			$config ['first_url'] = base_url () . 'admin/pendidikan_dakwah/';
 		}
 		
-		$config ['per_page'] = 5;
+		$config ['per_page'] = 10;
 		$config ['query_string_segment'] = 'start';
 		$config ['page_query_string'] = TRUE;
 		$config ['total_rows'] = $this->Pendidikan_dakwah_model->total_rows_pendidikan_dakwah ( $q );
@@ -1842,8 +1842,8 @@ class Admin extends CI_Controller {
 					$config ['create_thumb'] = FALSE;
 					$config ['maintain_ratio'] = FALSE;
 					$config ['quality'] = '50%';
-					$config ['width'] = 600;
-					$config ['height'] = 400;
+					$config ['width'] = 750;
+					$config ['height'] = 337;
 					$config ['new_image'] = 'public/pendidikan_dakwah/' . $gbr ['file_name'];
 					$this->load->library ( 'image_lib', $config );
 					$this->image_lib->resize ();
@@ -1851,13 +1851,15 @@ class Admin extends CI_Controller {
 					$data = array (
 							'nama_pendidikan_dakwah' => ucwords ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ),
 							'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ),
+							'judul_seo_pendidikan_dakwah' => seo_title ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ),
 							'gambar_pendidikan_dakwah' => $gbr ['file_name'] 
 					);
 				}
 			} else {
 				$data = array (
 						'nama_pendidikan_dakwah' => ucwords ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ),
-						'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ) 
+						'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ),
+						'judul_seo_pendidikan_dakwah' => seo_title ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ) 
 				);
 			}
 			
@@ -1915,8 +1917,8 @@ class Admin extends CI_Controller {
 					$config ['create_thumb'] = FALSE;
 					$config ['maintain_ratio'] = FALSE;
 					$config ['quality'] = '50%';
-					$config ['width'] = 600;
-					$config ['height'] = 400;
+					$config ['width'] = 750;
+					$config ['height'] = 337;
 					$config ['new_image'] = 'public/pendidikan_dakwah/' . $gbr ['file_name'];
 					$this->load->library ( 'image_lib', $config );
 					$this->image_lib->resize ();
@@ -1924,6 +1926,7 @@ class Admin extends CI_Controller {
 					$data = array (
 							'nama_pendidikan_dakwah' => ucwords ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ),
 							'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ),
+							'judul_seo_pendidikan_dakwah' => seo_title ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ),
 							'gambar_pendidikan_dakwah' => $gbr ['file_name'] 
 					);
 					$path_file = 'public/pendidikan_dakwah/' . $this->input->post ( 'gambar_pendidikan_dakwah_1', TRUE );
@@ -1934,7 +1937,8 @@ class Admin extends CI_Controller {
 			} else {
 				$data = array (
 						'nama_pendidikan_dakwah' => ucwords ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ),
-						'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ) 
+						'keterangan_pendidikan_dakwah' => $this->input->post ( 'keterangan_pendidikan_dakwah', TRUE ),
+						'judul_seo_pendidikan_dakwah' => seo_title ( $this->input->post ( 'nama_pendidikan_dakwah', TRUE ) ) 
 				);
 			}
 			
@@ -2719,7 +2723,7 @@ class Admin extends CI_Controller {
 	}
 	// End Kata Mereka
 	
-	// KQC Mart
+	// Produk KQC Mart
 	public function kqc_mart() {
 		if (! $this->ion_auth->logged_in ()) {
 			// redirect them to the login page
@@ -2738,15 +2742,15 @@ class Admin extends CI_Controller {
 		
 		$config ['per_page'] = 10;
 		$config ['page_query_string'] = TRUE;
-		$config ['total_rows'] = $this->Kqc_mart_model->total_rows_kqc_mart ( $q );
-		$kqc_mart = $this->Kqc_mart_model->get_limit_data_kqc_mart_order_by_jumlah ( $config ['per_page'], $start, $q );
+		$config ['total_rows'] = $this->Produk_kqc_model->total_rows_produk_kqc ( $q );
+		$produk_kqc = $this->Produk_kqc_model->get_limit_data_produk_kqc ( $config ['per_page'], $start, $q );
 		
 		$this->load->library ( 'pagination' );
 		$this->pagination->initialize ( $config );
 		
 		$data = array (
 				'button' => 'List',
-				'kqc_mart_data' => $kqc_mart,
+				'produk_kqc_data' => $produk_kqc,
 				'q' => $q,
 				'pagination' => $this->pagination->create_links (),
 				'total_rows' => $config ['total_rows'],
@@ -2764,12 +2768,13 @@ class Admin extends CI_Controller {
 		$data = array (
 				'button' => 'Create',
 				'action' => site_url ( 'admin/kqc_mart_create_action' ),
-				'id_kqc_mart' => set_value ( 'id_kqc_mart' ),
-				'kode_kqc_mart' => $this->Kqc_mart_model->generate_kode_produk_kqc (),
-				'nama_kqc_mart' => set_value ( 'nama_kqc_mart' ),
-				'harga_kqc_mart' => set_value ( 'harga_kqc_mart' ),
-				'jumlah_kqc_mart' => set_value ( 'jumlah_kqc_mart' ),
-				'gambar_kqc_mart_1' => set_value ( 'gambar_kqc_mart' ),
+				'id_produk_kqc' => set_value ( 'id_produk_kqc' ),
+				'kode_produk_kqc' => $this->Produk_kqc_model->generate_kode_produk_kqc (),
+				'nama_produk_kqc' => set_value ( 'nama_produk_kqc' ),
+				'deskripsi_produk_kqc' => set_value ( 'deskripsi_produk_kqc' ),
+				'harga_produk_kqc' => set_value ( 'harga_produk_kqc' ),
+				'gambar_produk_kqc_1' => set_value ( 'gambar_produk_kqc' ),
+				'id_kategori_produk' => set_value ( 'id_kategori_produk' ),
 				'page' => 'kqc_mart_form',
 				'title' => 'KQC Mart' 
 		);
@@ -2790,9 +2795,9 @@ class Admin extends CI_Controller {
 			$config ['encrypt_name'] = TRUE;
 			$this->upload->initialize ( $config );
 			
-			if (! empty ( $_FILES ['gambar_kqc_mart'] ['name'] )) {
+			if (! empty ( $_FILES ['gambar_produk_kqc'] ['name'] )) {
 				
-				if ($this->upload->do_upload ( 'gambar_kqc_mart' )) {
+				if ($this->upload->do_upload ( 'gambar_produk_kqc' )) {
 					$gbr = $this->upload->data ();
 					// Compress Image
 					$config ['image_library'] = 'gd2';
@@ -2807,23 +2812,25 @@ class Admin extends CI_Controller {
 					$this->image_lib->resize ();
 					
 					$data = array (
-							'kode_kqc_mart' => $this->input->post ( 'kode_kqc_mart', TRUE ),
-							'nama_kqc_mart' => $this->input->post ( 'nama_kqc_mart', TRUE ),
-							'harga_kqc_mart' => $this->input->post ( 'harga_kqc_mart', TRUE ),
-							'jumlah_kqc_mart' => $this->input->post ( 'jumlah_kqc_mart', TRUE ),
-							'gambar_kqc_mart' => $gbr ['file_name'] 
+							'kode_produk_kqc' => $this->input->post ( 'kode_produk_kqc', TRUE ),
+							'nama_produk_kqc' => ucwords ( $this->input->post ( 'nama_produk_kqc', TRUE ) ),
+							'deskripsi_produk_kqc' => $this->input->post ( 'deskripsi_produk_kqc', TRUE ),
+							'harga_produk_kqc' => $this->input->post ( 'harga_produk_kqc', TRUE ),
+							'gambar_produk_kqc' => $gbr ['file_name'],
+							'id_kategori_produk' => $this->input->post ( 'id_kategori_produk', TRUE ) 
 					);
 				}
 			} else {
 				$data = array (
-						'kode_kqc_mart' => $this->input->post ( 'kode_kqc_mart', TRUE ),
-						'nama_kqc_mart' => $this->input->post ( 'nama_kqc_mart', TRUE ),
-						'harga_kqc_mart' => $this->input->post ( 'harga_kqc_mart', TRUE ),
-						'jumlah_kqc_mart' => $this->input->post ( 'jumlah_kqc_mart', TRUE ) 
+						'kode_produk_kqc' => $this->input->post ( 'kode_produk_kqc', TRUE ),
+						'nama_produk_kqc' => ucwords ( $this->input->post ( 'nama_produk_kqc', TRUE ) ),
+						'deskripsi_produk_kqc' => $this->input->post ( 'deskripsi_produk_kqc', TRUE ),
+						'harga_produk_kqc' => $this->input->post ( 'harga_produk_kqc', TRUE ),
+						'id_kategori_produk' => $this->input->post ( 'id_kategori_produk', TRUE ) 
 				);
 			}
 			
-			$this->Kqc_mart_model->insert_kqc_mart ( $data );
+			$this->Produk_kqc_model->insert_produk_kqc ( $data );
 			$this->session->set_flashdata ( 'message', 'Create Record KQC Mart Success' );
 			redirect ( site_url ( 'admin/kqc_mart' ) );
 		}
@@ -2833,17 +2840,20 @@ class Admin extends CI_Controller {
 			// redirect them to the login page
 			return redirect ( site_url ( 'admin/login' ) );
 		}
-		$row = $this->Kqc_mart_model->get_by_id_kqc_mart ( $id );
+		$row = $this->Produk_kqc_model->get_by_id_produk_kqc ( $id );
 		
 		if ($row) {
 			$data = array (
 					'button' => 'Update',
 					'action' => site_url ( 'admin/kqc_mart_update_action' ),
-					'id_kqc_mart' => set_value ( 'id_kqc_mart', $row->id_kqc_mart ),
-					'nama_kqc_mart' => set_value ( 'nama_kqc_mart', $row->nama_kqc_mart ),
-					'harga_kqc_mart' => set_value ( 'harga_kqc_mart', $row->harga_kqc_mart ),
-					'jumlah_kqc_mart' => set_value ( 'jumlah_kqc_mart', $row->jumlah_kqc_mart ),
-					'gambar_kqc_mart_1' => set_value ( 'gambar_kqc_mart', $row->gambar_kqc_mart ),
+					'id_produk_kqc' => set_value ( 'id_produk_kqc', $row->id_produk_kqc ),
+					'kode_produk_kqc' => set_value ( 'kode_produk_kqc', $row->kode_produk_kqc ),
+					'nama_produk_kqc' => set_value ( 'nama_produk_kqc', $row->nama_produk_kqc ),
+					'deskripsi_produk_kqc' => set_value ( 'deskripsi_produk_kqc', $row->deskripsi_produk_kqc ),
+					'harga_produk_kqc' => set_value ( 'harga_produk_kqc', $row->harga_produk_kqc ),
+					'gambar_produk_kqc_1' => set_value ( 'gambar_produk_kqc', $row->gambar_produk_kqc ),
+					'id_kategori_produk' => set_value ( 'id_kategori_produk', $row->id_kategori_produk ),
+					
 					'page' => 'kqc_mart_form',
 					'title' => 'KQC Mart' 
 			);
@@ -2862,16 +2872,16 @@ class Admin extends CI_Controller {
 		$this->kqc_mart_rules ();
 		
 		if ($this->form_validation->run () == FALSE) {
-			$this->kqc_mart_update ( $this->input->post ( 'id_kqc_mart', TRUE ) );
+			$this->kqc_mart_update ( $this->input->post ( 'id_produk_kqc', TRUE ) );
 		} else {
 			$config ['upload_path'] = 'public/kqc_mart/';
 			$config ['allowed_types'] = 'gif|jpg|png|jpeg|JPG|JPEG';
 			$config ['encrypt_name'] = TRUE;
 			$this->upload->initialize ( $config );
 			
-			if (! empty ( $_FILES ['gambar_kqc_mart'] ['name'] )) {
+			if (! empty ( $_FILES ['gambar_produk_kqc'] ['name'] )) {
 				
-				if ($this->upload->do_upload ( 'gambar_kqc_mart' )) {
+				if ($this->upload->do_upload ( 'gambar_produk_kqc' )) {
 					$gbr = $this->upload->data ();
 					// Compress Image
 					$config ['image_library'] = 'gd2';
@@ -2886,27 +2896,29 @@ class Admin extends CI_Controller {
 					$this->image_lib->resize ();
 					
 					$data = array (
-							'kode_kqc_mart' => $this->input->post ( 'kode_kqc_mart', TRUE ),
-							'nama_kqc_mart' => $this->input->post ( 'nama_kqc_mart', TRUE ),
-							'harga_kqc_mart' => $this->input->post ( 'harga_kqc_mart', TRUE ),
-							'jumlah_kqc_mart' => $this->input->post ( 'jumlah_kqc_mart', TRUE ),
-							'gambar_kqc_mart' => $gbr ['file_name'] 
+							'kode_produk_kqc' => $this->input->post ( 'kode_produk_kqc', TRUE ),
+							'nama_produk_kqc' => ucwords ( $this->input->post ( 'nama_produk_kqc', TRUE ) ),
+							'deskripsi_produk_kqc' => $this->input->post ( 'deskripsi_produk_kqc', TRUE ),
+							'harga_produk_kqc' => $this->input->post ( 'harga_produk_kqc', TRUE ),
+							'gambar_produk_kqc' => $gbr ['file_name'],
+							'id_kategori_produk' => $this->input->post ( 'id_kategori_produk', TRUE ) 
 					);
-					$path_file = 'public/kqc_mart/' . $this->input->post ( 'gambar_kqc_mart_1', TRUE );
+					$path_file = 'public/kqc_mart/' . $this->input->post ( 'gambar_produk_kqc_1', TRUE );
 					if (file_exists ( $path_file )) {
 						unlink ( $path_file );
 					}
 				}
 			} else {
 				$data = array (
-						'kode_kqc_mart' => $this->input->post ( 'kode_kqc_mart', TRUE ),
-						'nama_kqc_mart' => $this->input->post ( 'nama_kqc_mart', TRUE ),
-						'harga_kqc_mart' => $this->input->post ( 'harga_kqc_mart', TRUE ),
-						'jumlah_kqc_mart' => $this->input->post ( 'jumlah_kqc_mart', TRUE ) 
+						'kode_produk_kqc' => $this->input->post ( 'kode_produk_kqc', TRUE ),
+						'nama_produk_kqc' => ucwords ( $this->input->post ( 'nama_produk_kqc', TRUE ) ),
+						'deskripsi_produk_kqc' => $this->input->post ( 'deskripsi_produk_kqc', TRUE ),
+						'harga_produk_kqc' => $this->input->post ( 'harga_produk_kqc', TRUE ),
+						'id_kategori_produk' => $this->input->post ( 'id_kategori_produk', TRUE ) 
 				);
 			}
 			
-			$this->Kqc_mart_model->update_kqc_mart ( $this->input->post ( 'id_kqc_mart', TRUE ), $data );
+			$this->Produk_kqc_model->update_produk_kqc ( $this->input->post ( 'id_produk_kqc', TRUE ), $data );
 			$this->session->set_flashdata ( 'message', 'Update Record KQC Mart Success' );
 			redirect ( site_url ( 'admin/kqc_mart' ) );
 		}
@@ -2916,10 +2928,10 @@ class Admin extends CI_Controller {
 			// redirect them to the login page
 			return redirect ( site_url ( 'admin/login' ) );
 		}
-		$row = $this->Kqc_mart_model->get_by_id_kqc_mart ( $id );
+		$row = $this->Produk_kqc_model->get_by_id_produk_kqc ( $id );
 		
 		if ($row) {
-			$this->Kqc_mart_model->delete_kqc_mart ( $id );
+			$this->Produk_kqc_model->delete_produk_kqc ( $id );
 			$this->session->set_flashdata ( 'message', 'Delete Record KQC Mart Success' );
 			$path_file = 'public/kqc_mart/' . $row->gambar_kqc_mart;
 			if (file_exists ( $path_file )) {
@@ -2932,11 +2944,14 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function kqc_mart_rules() {
-		$this->form_validation->set_rules ( 'nama_kqc_mart', 'nama kqc mart', 'trim|required' );
-		$this->form_validation->set_rules ( 'harga_kqc_mart', 'harga kqc mart', 'trim|required|numeric' );
-		$this->form_validation->set_rules ( 'jumlah_kqc_mart', 'jumlah kqc mart', 'trim|required|numeric' );
+		$this->form_validation->set_rules ( 'kode_produk_kqc', 'kode produk kqc', 'trim|required' );
+		$this->form_validation->set_rules ( 'nama_produk_kqc', 'nama produk kqc', 'trim|required' );
+		$this->form_validation->set_rules ( 'deskripsi_produk_kqc', 'deskripsi produk kqc', 'trim|required' );
+		$this->form_validation->set_rules ( 'harga_produk_kqc', 'harga produk kqc', 'trim|required|numeric' );
+		$this->form_validation->set_rules ( 'gambar_produk_kqc', 'gambar produk kqc' );
+		$this->form_validation->set_rules ( 'id_kategori_produk', 'id kategori produk', 'trim|required' );
 		
-		$this->form_validation->set_rules ( 'id_kqc_mart', 'id_kqc_mart', 'trim' );
+		$this->form_validation->set_rules ( 'id_produk_kqc', 'id_produk_kqc', 'trim' );
 		$this->form_validation->set_error_delimiters ( '<span class="text-danger">', '</span>' );
 	}
 	

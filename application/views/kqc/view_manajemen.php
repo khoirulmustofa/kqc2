@@ -20,8 +20,10 @@
 			<div class="col-md-8">
 				<div class="single-blog-page">
 					<div class="blog-post-thumb">
-                       <img src="<?php echo  base_url('public/tentang_kami/').$gambar_tentang_kami;?>" alt=" single blog photos">
-                  </div>
+						<img
+							src="<?php echo  base_url('public/tentang_kami/').$gambar_tentang_kami;?>"
+							alt=" single blog photos">
+					</div>
 					<h2><?php echo ucwords($title)?> Kampung Qur'an Cikarang</h2>
 					
 					<?php echo $isi_tentang_kami; ?>
@@ -36,65 +38,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="sidebar">
-					<div class="recent-new-widget">
-						<div class="widget-title">
-							<h3>Recent News</h3>
-						</div>
-						<div class="widget-body">
-							<div class="signle-recent-news-wrapper">
-								<div class="single-news-items">
-									<div class="news-post-thumb">
-										<img src="assets/img/single-post.jpg" alt="single post">
-									</div>
-									<div class="news-post-content">
-										<a href="#"><h5>We make the world happy togather</h5></a>
-										<div class="news-post-meta">
-											<p>
-												<i class="icofont icofont-speech-comments"></i> 7
-											</p>
-											<p>
-												<i class="icofont icofont-ui-love"></i> 15
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="single-news-items">
-									<div class="news-post-thumb">
-										<img src="assets/img/single-post-1.jpg" alt="single post">
-									</div>
-									<div class="news-post-content">
-										<a href="#"><h5>We make the world happy togather</h5></a>
-										<div class="news-post-meta">
-											<p>
-												<i class="icofont icofont-speech-comments"></i> 7
-											</p>
-											<p>
-												<i class="icofont icofont-ui-love"></i> 15
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="single-news-items">
-									<div class="news-post-thumb">
-										<img src="assets/img/single-post-2.jpg" alt="single post">
-									</div>
-									<div class="news-post-content">
-										<a href="#"><h5>We make the world happy togather</h5></a>
-										<div class="news-post-meta">
-											<p>
-												<i class="icofont icofont-speech-comments"></i> 7
-											</p>
-											<p>
-												<i class="icofont icofont-ui-love"></i> 15
-											</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<?php include 'view_produk_terbaru_kqc_mart.php';?>
 			</div>
 		</div>
 	</div>
